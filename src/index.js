@@ -1,7 +1,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app/App';
+import CalcOfRoi from './components/calc-of-roi/calc-of-roi';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 // import ErrorBoundry from './components/error-boundry/error-boundry';
@@ -11,6 +11,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
 
-              <App />
+              <CalcOfRoi />
 
     , document.getElementById('root'));

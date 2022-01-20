@@ -1,0 +1,69 @@
+.manager-settings {
+    // border: 2px solid black;
+    float: left;
+    width: 70%;
+    padding: 20px;
+    // z-index: 2;
+    & form {
+        display: grid;
+        grid-template-columns: 3fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 20px;
+        & div{
+            display: flex;
+            align-items: left;
+        }
+        & label{
+
+        }
+        & input{
+            // float: left;
+            width: 5rem;
+            height: 50%;
+            border-radius: 10%;
+
+        }
+        & .min_profit{
+            grid-row-start: 1; 
+            grid-row-end: 1; 
+            grid-column-start: 1;   
+            grid-column-end: 1; 
+            margin: 5px;
+        }
+        & .max_profit{
+            grid-row-start: 2; 
+            grid-row-end: 2; 
+            grid-column-start: 1;   
+            grid-column-end: 1; 
+            margin: 5px;
+        }
+        & .limit_sum {
+            grid-row-start: 1; 
+            grid-row-end: 2; 
+            grid-column-start: 2;   
+            grid-column-end: 2; 
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            margin: 5px 5px 5px 10%;
+            & input {
+                margin-top: 5px;
+                width: 70%;
+            }
+        }
+        & .min_clear_profit{
+            grid-row-start: 1; 
+            grid-row-end: 2; 
+            grid-column-start: 3;   
+            grid-column-end: 3; 
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            margin: 5px 5px 5px 10%;
+            & input {
+                margin-top: 5px;
+                width: 70%;
+            }
+        }
+    }
+}

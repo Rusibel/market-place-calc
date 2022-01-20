@@ -1,0 +1,26 @@
+aside {
+  // display: inline-block;
+  float: left;
+  height: 100%;
+  width: 18%; 
+  // position: fixed; 
+  z-index: 1; 
+  top: 0; 
+  left: 0;
+  background-color: rgb(248, 248, 251); 
+  overflow-x: hidden; 
+  padding: 20px;
+  margin: 0px;
+    & ul {
+      margin-top: 50px;
+      padding: 30px;
+      font-size: 20px;
+      color: rgb(0, 0, 0);
+      text-align: left;
+      font-weight: 300;    
+      & li {
+        margin-top: 15px;
+        font-weight: 100;
+      }
+    }
+};
