@@ -1,0 +1,25 @@
+.table {
+    // float: left;
+    width: 70%;
+    margin-left: 20%;
+    padding: 20px;
+    // display: grid;
+    // grid-template-columns: 2fr 0.5fr 1fr 1fr 1fr;
+    // grid-template-rows: repeat(31, 50px);
+    // background-color: blue;
+}
+.table_form2 {
+    float: left;
+    width: 70%;
+    padding: 20px;
+    display: grid;
+    grid-template-rows: 2fr 0.5fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(31, 100px );
+    // grid-template-rows: repeat(31, 50px);
+    // background-color: blue;
+}
+
+.table_header{
+    background-color:rgb(248, 248, 251); 
+    font-weight: 700;
+}

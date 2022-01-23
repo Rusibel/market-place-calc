@@ -1,13 +1,13 @@
 const initialState = {
-    output: "WB",
+    output: "YMarket",
     buy1pc: 1400,
     cell1pc: 2800,
     marketplaceCommission : 0.2,
     dep: "-  зависит от продаж",
     weight: 0.1,
     heightWidthLength: 0,
-    CP: 316.9000000000001,
-    ROI: 1.226357143,
+    CP: 316.90,
+    ROI: 1.23,
     buyMax: 1716.9,
     cellMin: 2763.1,
     cellZero: 2483.1,
@@ -27,9 +27,9 @@ const initialState = {
     deliveryComission: 0,
     processing: 0,
     commissionTotal: 560,
-    tax: 179.20000000000002,
+    tax: 179.20,
     costsWithoutPurchase: 1083.1,
-    profit: 316.9000000000001
+    profit: 316.90
 }
 
 export default function yMarketCalc(state = initialState) {

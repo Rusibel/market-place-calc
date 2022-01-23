@@ -1,7 +1,7 @@
 const initialState = {
     output: "Вывод",
-    buy1pc: "Закупка,1 шт",
-    cell1pc: "Продажа,1 шт",
+    buy1pc: " Закупка, 1 шт",
+    cell1pc: "Продажа, 1 шт",
     marketplaceCommission : "Комиссия маркетплейса",
     dep: 0,
     weight: "Вес, кг",

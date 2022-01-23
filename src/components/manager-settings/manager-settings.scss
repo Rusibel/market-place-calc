@@ -3,7 +3,7 @@
     float: left;
     width: 70%;
     padding: 20px;
-    // z-index: 2;
+    margin-left: 20%;
     & form {
         display: grid;
         grid-template-columns: 3fr 1fr 1fr;
@@ -13,9 +13,9 @@
             display: flex;
             align-items: left;
         }
-        & label{
+        // & label{
 
-        }
+        // }
         & input{
             // float: left;
             width: 5rem;

@@ -1,7 +1,10 @@
 import React from "react";
+import './cell.scss'
 
-export default function Cell ({arg}) {
+export default function Cell ({value, classNames}) {
+    classNames = classNames + ' cell'
+
     return (
-        <p>{arg}</p>
+        <div className={classNames}>{value}</div>
     )
 }
