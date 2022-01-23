@@ -3,9 +3,9 @@ import Cell from "../cell/cell";
 import './row.scss'
 // import store from "../../store";
 
-export default function Col ({data, classNames, prefix}) {
+export default function InputsRow ({data, classNames, prefix}) {
 
-    classNames = classNames + ' table_rows'
+    classNames = classNames + ' table_inputs_rows'
 
     return (
         <div className={classNames} >
