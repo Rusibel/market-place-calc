@@ -32,6 +32,14 @@ const initialState = {
     profit: 75.42
 }
 
-export default function ozoneCalc(state = initialState) {
-    return state
+export default function ozoneCalc(state = initialState, action) {
+    const {type, param, payload} = action;
+    // console.log(param)
+    switch (type) {
+        case 'ADD_VAL':
+          state[param] = payload;
+          return { ...state };
+        default:
+          return state;
+      }
   }

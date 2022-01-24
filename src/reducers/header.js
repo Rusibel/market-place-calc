@@ -23,11 +23,11 @@ const initialState = {
     lastMile: "Последняя миля",
     dkYm: "% ДК УМ",
     pt: "% ПТ",
-    adv: "Реклама",
+    adv: "Реклама, %",
     deliveryComission: "Комиссия Дост МП",
     processing: "Обработка",
     commissionTotal: "Комиссия МП Итог",
-    tax: "Налог 7+1%",
+    tax: "Налог, %",
     costsWithoutPurchase: "Косты без закупа",
     profit: "Прибыль "
 }

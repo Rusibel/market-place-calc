@@ -1,22 +1,25 @@
 import React from "react";
 import Row from "../row/row";
-import {connect} from 'react-redux';
+import {useSelector, shallowEqual} from 'react-redux';
 import './product-criteria.scss'
 
-function ProductCriteria ({state, filterState}) {
 
+
+function ProductCriteria ({filterState}) {
+    const state = useSelector(state => state, shallowEqual)
 
     const filteredState = filterState(state, "output", "buy1pc", "cell1pc", "marketplaceCommission", "dep", "weight", "heightWidthLength")
     const inputs = ["buy1pc", "cell1pc", "marketplaceCommission", "weight", "heightWidthLength"];
 
-    const header = <Row classNames="table_header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
+    const header = <Row classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
     const ozone = <Row classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={inputs}/>
     const wb = <Row classNames="" data={filteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={inputs}/>
     const yMarket = <Row classNames="" data={filteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={inputs}/>
-
+    console.log(state);
     return (
         <>
-            <form className="table_form">
+            <h1>Критерии товара</h1>
+            <form className="table__form__product-criteria">
                 {header}
                 {ozone}
                 {wb}
@@ -26,9 +29,5 @@ function ProductCriteria ({state, filterState}) {
     )
 }
 
-const mapStateToProps = (state) => {
-    return  {state}
-    
-};
 
-export default connect(mapStateToProps)(ProductCriteria);
+export default ProductCriteria;

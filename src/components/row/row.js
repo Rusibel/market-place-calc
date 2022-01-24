@@ -8,7 +8,7 @@ export default function Row ({data, classNames, prefix, inputs}) {
 
     const row = Object.entries(data).map((item) => {
         
-        if (item[0] === 'heightWidthLength' && prefix != 'header' && prefix != 'ozoneCalc'){
+        if (item[0] === 'heightWidthLength' && prefix !== 'header' && prefix !== 'ozoneCalc'){
             return <Input
             classNames={classNames}
             key={item[0]+prefix} 
@@ -20,7 +20,7 @@ export default function Row ({data, classNames, prefix, inputs}) {
                classNames={classNames}
                key={item[0]+prefix} 
                value={item[1]}
-               id={item[0]+prefix} />
+               id={item[0]} />
         }
         
       
