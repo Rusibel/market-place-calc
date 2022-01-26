@@ -33,11 +33,12 @@ const initialState = {
 }
 
 export default function headerVal(state = initialState, action) {
-    switch (action.type) {
+    const {type, param, payload} = action;
+    console.log(state)
+    switch (type) {
         case 'ADD_VAL':
-          return { ...state, 
-                    'action.param': action.payload
-                };
+          state[param] = payload;
+          return { ...state };
         default:
           return state;
       }

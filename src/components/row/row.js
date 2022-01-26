@@ -13,22 +13,28 @@ export default function Row ({data, classNames, prefix, inputs}) {
             classNames={classNames}
             key={item[0]+prefix} 
             value={item[1]}
-            id={item[0]+prefix} 
-            checkbox={true}/>
+            id={item[0]+'__'+prefix} 
+            checkbox={true}
+            prefix={prefix}
+            param={item[0]}/>
         }else if (inputs.includes(item[0])){
             return <Input
                classNames={classNames}
                key={item[0]+prefix} 
                value={item[1]}
-               id={item[0]} />
+               id={item[0]+'__'+prefix} 
+               prefix={prefix}
+               param={item[0]}/>
         }
         
       
         {
             return <Cell
-            classNames={classNames}
-            key={item[0]+prefix} 
-            value={item[1]} />
+                classNames={classNames}
+                key={item[0]+prefix} 
+                value={item[1]}
+                id={item[0]+'__'+prefix}
+                prefix={prefix} />
         }
     })
     // console.log(inputs.includes('dep'))
