@@ -10,7 +10,7 @@ function addInputsVal ({e, param='', prefix=''}) {
   }
 
 
-export default function Input ({value, id, classNames, checkbox, prefix, param, }) {
+export default function Input ({value, id, classNames, checkbox, prefix, param}) {
 
     const [addValActionDispatch] = useActions([addInputsVal]);
     const addVal = useCallback((e) => addValActionDispatch({e, param: param, prefix: prefix}), [addValActionDispatch]);

@@ -10,63 +10,48 @@ export default function ManagerSettings () {
     console.log(state)
     const {managerSettings: {
         minProfit, maxProfit, limitSum, minClearProfit}} = state;
-        console.log( <InputBlock 
-            label='Eсли товар дешевле пороговой суммы, хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль'
-            classNames=''
-            key='managerSettings_minProfit'
-            value={minProfit}
-            prefix={'managerSettings'}
-            param={minProfit}/>   )
-
     return (
         <div className='manager-settings'>
             <h1>Управленческие настройки</h1><br></br>
             <form 
                 className ="">
                 <div className='min_profit'>
-                    {/* <InputBlock 
-                    label='Eсли товар дешевле пороговой суммы, хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль'
-                    classNames=''
-                    key='managerSettings_minProfit'
-                    value={minProfit}
-                    prefix={'managerSettings'}
-                    param={minProfit}/>    */}
-
-                    {/* />
-                    <label htmlFor='min_profit'>Eсли товар дешевле пороговой суммы, хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль</label>
-                    <input
-                        type='text'
-                        placeholder='0.6'
-                        id='min_profit'
-                        className=''
-                    /> */}
+                    <InputBlock 
+                        label={'Eсли товар дешевле пороговой суммы, хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль'}
+                        classNames=''
+                        id={'managerSettings_minProfit'}
+                        value={minProfit}
+                        prefix={"managerSettings"}
+                        param={"minProfit"}/>  
+          
                 </div>
                 <div className='max_profit'>
-                    <label htmlFor='max_profit'>Eсли товар дороже пороговой суммы, хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль</label>
-                    <input
-                        type='text'
-                        placeholder='0.2'
-                        id='max_profit'
-                        className=''
-                    />
+                    <InputBlock 
+                        label='Eсли товар дороже пороговой суммы, хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль'
+                        classNames=''
+                        id='managerSettings_maxProfit'
+                        value={maxProfit}
+                        prefix='managerSettings'
+                        param='maxProfit' />                   
                 </div>
                 <div className='limit_sum'>
-                    <label htmlFor='limit_sum'>Пороговая сумма, руб</label>
-                    <input
-                        type='text'
-                        placeholder='1000'
-                        id='limit_sum'
-                        className=''
-                    />
+                    <InputBlock 
+                        label='Пороговая сумма, руб'
+                        classNames=''
+                        id='managerSettings_limitSum'
+                        value={limitSum}
+                        prefix='managerSettings'
+                        param='limitSum' />                 
                 </div>
+    
                 <div className='min_clear_profit'>
-                    <label htmlFor='min_clear_profi'>с минимальной чистой прибылью, руб</label>
-                    <input
-                        type='text'
-                        placeholder='300'
-                        id='min_clear_profi'
-                        className=''
-                    />
+                    <InputBlock 
+                        label='с минимальной чистой прибылью, руб'
+                        classNames=''
+                        id='minClearProfit'
+                        value={minClearProfit}
+                        prefix='managerSettings'
+                        param='minClearProfit' /> 
                 </div>
               
             </form>

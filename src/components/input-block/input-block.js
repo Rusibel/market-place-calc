@@ -1,17 +1,19 @@
 import React from 'react'
 import Input from '../input/input'
 
-export default function InputBlock (label, classNames, key, value, prefix, param) {
+export default function InputBlock ({label, classNames, id, value, prefix, param}) {
+    console.log(id)
     return (
-        <>dfsgf
-            <label htmlFor={param}>{label}</label>
+        <>        
+            <label htmlFor={param}> {label} </label>
             <Input
-               classNames={classNames}
-               key={key} 
+               className={classNames}
+               key={id} 
                value={value}
-               id={key} 
+               id={id} 
                prefix={prefix}
                param={param}/>       
         </>
+
     )
 }
