@@ -2,7 +2,7 @@ import React from 'react'
 import Input from '../input/input'
 
 export default function InputBlock ({label, classNames, id, value, prefix, param}) {
-    console.log(id)
+
     return (
         <>        
             <label htmlFor={param}> {label} </label>

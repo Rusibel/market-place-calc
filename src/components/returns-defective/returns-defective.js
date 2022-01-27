@@ -6,7 +6,7 @@ import './returns-defective.scss'
 function ReturnsDefective ({filterState}) {
     const state = useSelector(state => state, shallowEqual)
 
-    const filteredState = filterState(state, "output", "PackRentPacker", "return", "reject", "rejectPrice")
+    const filteredState = filterState(state, "output", "PackRentPacker", "returns", "reject", "rejectPrice")
     const inputs = ["PackRentPacker", "return", "reject"];
 
     const header = <Row classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>

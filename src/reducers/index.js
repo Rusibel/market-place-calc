@@ -1,84 +1,9 @@
-import React from "react";
-// import { combineReducers } from 'redux';
-// import header from './header';
-// import headerVal from './header-val';
-// import ozoneCalc from './ozone-calc';
-// import wbCalc from './wb-Calc';
-// import yMarketCalc from './y-market-calc';
-
-
-// const initialState = combineReducers({
-//     header,
-//     headerVal,
-//     ozoneCalc,
-//     wbCalc,
-//     yMarketCalc
-// })
-
-// const rootReduser = function (state = initialState, action) {
-//     // const {type, param, payload} = action;
-//     // console.log(param)
-//     // switch (type) {
-//     //     case 'ADD_VAL':
-//     //       state[param] = payload;
-//     //       return { ...state };
-//     //     default:
-//     return state;
-//     //   }
-//   }
-
-// const calcReducer = combineReducers({
-//     header,
-//     headerVal,
-//     ozoneCalc,
-//     wbCalc,
-//     yMarketCalc
-// })
-
-// export default combineReducers({
-//     calcReducer, rootReduser
-// })
-
-
-
-
-// const initialState = combineReducers({
-//     header,
-//     headerVal,
-//     ozoneCalc,
-//     wbCalc,
-//     yMarketCalc
-// })
-
-// const reducer = (state = initialState) => {
-//     console.log(state);
-//     // switch (action.type) {
-//     //     case 'MENU_LOADED': 
-//     //         return {
-//     //             menu: action.payload,
-//     //             loading: false,
-//     //             error: state.error
-//     //         };
-//     //     case 'MENU_REQUESTED': 
-//     //         return {
-//     //             menu: state.menu,
-//     //             loading: true,
-//     //             error: state.error
-//     //         };
-//     //     case 'MENU_ERROR': 
-//     //         return {
-//     //             menu: state.menu,
-//     //             loading: false,
-//     //             error: true
-//     //         };
-//     //     default: 
-//             return state;
-//     // }
-// }
-
-// export default reducer;
+// import React from "react";
 
 const initialState = {
+    masterdata: {
+        heightWidthLength: false,
+    },
     managerSettings: {
         minProfit: 0.6,
         maxProfit: 0.2,
@@ -99,7 +24,7 @@ const initialState = {
         cellMin: "Продажа Мин. ≈",
         cellZero: "Продажа вноль",
         PackRentPacker: "Упаковка, аренда, упаковщик",
-        return: "% возвратов",
+        returns: "% возвратов",
         reject: "% брака",
         rejectPrice: "Цена возврата",
         fixCommission: "Ком ФИКС",
@@ -119,37 +44,37 @@ const initialState = {
         profit: "Прибыль "
     },
     headerVal: {
-            output: 0,
-            buy1pc: 0,
-            cell1pc: 0,
-            marketplaceCommission : 0,
-            dep: 0,
-            weight: 0,
-            heightWidthLength: 0,
-            CP: 0,
-            ROI: 0,
-            buyMax: 0,
-            cellMin: 0,
-            cellZero: 0,
-            PackRentPacker: 45,
-            return: 0.1,
-            reject: 0.03,
-            rejectPrice: 0,
-            fixCommission: 0,
-            delivery: 0,
-            federal: 0,
-            acceptance: 0,
-            magistral: 19,
-            lastMile: 0,
-            dkYm: 0.05,
-            pt: 0.03,
-            adv: 1,
-            deliveryComission: 0,
-            processing: 0,
-            commissionTotal: 0,
-            tax: 8,
-            costsWithoutPurchase: 0,
-            profit: 0
+        output: 0,
+        buy1pc: 0,
+        cell1pc: 0,
+        marketplaceCommission : 0,
+        dep: 0,
+        weight: 0,
+        heightWidthLength: 0,
+        CP: 0,
+        ROI: 0,
+        buyMax: 0,
+        cellMin: 0,
+        cellZero: 0,
+        PackRentPacker: 45,
+        returns: 0.1,
+        reject: 0.03,
+        rejectPrice: 0,
+        fixCommission: 0,
+        delivery: 0,
+        federal: 0,
+        acceptance: 0,
+        magistral: 19,
+        lastMile: 0,
+        dkYm: 0.05,
+        pt: 0.03,
+        adv: 1,
+        deliveryComission: 0,
+        processing: 0,
+        commissionTotal: 0,
+        tax: 8,
+        costsWithoutPurchase: 0,
+        profit: 0
     },
     ozoneCalc: {
         output: "OZONE",
@@ -165,7 +90,7 @@ const initialState = {
         cellMin: 3004.58,
         cellZero: 2724.58,
         PackRentPacker: 45,
-        return: 0.1,
+        returns: 0.1,
         reject: 0.03,
         rejectPrice: 758.4,
         fixCommission: 0,
@@ -198,7 +123,7 @@ const initialState = {
         cellMin: 2763.1,
         cellZero: 2483.1,
         PackRentPacker: 45,
-        return: 0.1,
+        returns: 0.1,
         reject: 0.03,
         rejectPrice: 329,
         fixCommission: 0,
@@ -231,7 +156,7 @@ const initialState = {
         cellMin: 2763.1,
         cellZero: 2483.1,
         PackRentPacker: 45,
-        return: 0.1,
+        returns: 0.1,
         reject: 0.03,
         rejectPrice: 329,
         fixCommission: 0,
@@ -257,15 +182,108 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_VAL':
-            console.log(action);
-            const newState = state;
-            newState[action.prefix][action.param] = action.payload;
-            state = newState;
-            console.log(state);
-            return state
+            const prefix = state[action.prefix];
+            let {output,
+            buy1pc,
+            cell1pc,
+            marketplaceCommission,
+            weight,
+            heightWidthLength,
+            CP: cp,
+            ROI: roi,
+            buyMax,
+            cellMin,
+            cellZero,
+            PackRentPacker: packRentPacker,
+            returns,
+            reject,
+            rejectPrice,
+            fixCommission,
+            delivery,
+            federal,
+            acceptance,
+            magistral,
+            lastMile,
+            dkYm,
+            pt,
+            adv,
+            deliveryComission,
+            processing,
+            commissionTotal,
+            tax,
+            costsWithoutPurchase,
+            profit} = prefix;
+
+            prefix[action.param] = action.payload;
+            packRentPacker = state.headerVal.PackRentPacker.length === 0 ? null : state.headerVal.PackRentPacker;
+            magistral = state.headerVal.magistral*weight < 5 ? 5 : state.headerVal.magistral*weight > 500 ? 500 : state.headerVal.magistral*weight
+            lastMile = (cell1pc) => {
+                if (cell1pc*0.044 < 200){
+                    if (cell1pc*0.044 > 50) {
+                        return cell1pc*0.044
+                    } else {
+                        return 50
+                    }
+                } 
+                return 200
+            }
+            deliveryComission = acceptance + magistral + lastMile;
+            dkYm = state.headerVal.dkYm*cell1pc*0.01;
+            pt = state.headerVal.pt*cell1pc*0.01;
+            commissionTotal = cell1pc*marketplaceCommission*0.01 - deliveryComission;
+            adv = state.headerVal.adv*cell1pc*0.01;
+            returns = state.headerVal.returns;
+            rejectPrice = packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm + pt + adv + 20;
+            tax = (cell1pc - commissionTotal)*0.08;
+            costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax
+            profit = cell1pc - buy1pc - costsWithoutPurchase;
+            cp = profit;
+            
+
+
+
+
+            return {
+                ...state, 
+                [action.prefix]: {
+                    ...state[action.prefix],
+                    [action.param]: +action.payload,   
+                    costsWithoutPurchase: costsWithoutPurchase,     
+                    profit: profit,
+                    CP: cp,
+                }
+            }
         default:
           return state;
       }
 }
 
 export default reducer;
+
+// const st = {ozoneCalc :{
+//             buyMax: 1475.50,
+//             cellMin: 3004.58,
+//             cellZero: 2724.58,
+//             PackRentPacker: 45,
+//             return: 0.1,
+//             reject: 0.03,
+//             rejectPrice: 758.4,
+//             fixCommission: 0,
+//             delivery: 0,
+//             federal: 0,
+//             acceptance: 45,
+//             magistral: 5,
+//             lastMile: 123.20,
+//             dkYm: 140,
+//             pt: 84,
+//             adv: 168,
+//             deliveryComission: 173.2,
+//             processing: 0,
+//             commissionTotal: 593.2,
+//             tax: 176.55,
+//             costsWithoutPurchase: 1324.59,
+//             profit: 75.42,
+//             CP: ozoneCalc.profit,
+//             ROI: 1.055,
+//         }
+//     }
