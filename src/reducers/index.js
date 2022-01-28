@@ -39,7 +39,7 @@ const initialState = {
         deliveryComission: "Комиссия Дост МП",
         processing: "Обработка",
         commissionTotal: "Комиссия МП Итог",
-        tax: "Налог, %",
+        tax: "Налог, 7+1%",
         costsWithoutPurchase: "Косты без закупа",
         profit: "Прибыль "
     },
@@ -57,8 +57,8 @@ const initialState = {
         cellMin: 0,
         cellZero: 0,
         PackRentPacker: 45,
-        returns: 0.1,
-        reject: 0.03,
+        returns: 10,
+        reject: 3,
         rejectPrice: 0,
         fixCommission: 0,
         delivery: 0,
@@ -66,8 +66,8 @@ const initialState = {
         acceptance: 0,
         magistral: 19,
         lastMile: 0,
-        dkYm: 0.05,
-        pt: 0.03,
+        dkYm: 5,
+        pt: 3,
         adv: 1,
         deliveryComission: 0,
         processing: 0,
@@ -274,6 +274,13 @@ function calcParam(state, action, pref) {
             profit: profit,
 
     }
+    for (let key in newState){
+        console.log(newState[key])
+        if (typeof(newState[key]) === 'number'){
+            newState[key] = +newState[key].toFixed(2)
+        }
+        // newState[key] = newState[key].toFixed(2)
+    }
     return newState
 
 }
@@ -432,31 +439,3 @@ const reducer = (state = initialState, action) => {
 }
 
 export default reducer;
-
-// const st = {ozoneCalc :{
-//             buyMax: 1475.50,
-//             cellMin: 3004.58,
-//             cellZero: 2724.58,
-//             PackRentPacker: 45,
-//             return: 0.1,
-//             reject: 0.03,
-//             rejectPrice: 758.4,
-//             fixCommission: 0,
-//             delivery: 0,
-//             federal: 0,
-//             acceptance: 45,
-//             magistral: 5,
-//             lastMile: 123.20,
-//             dkYm: 140,
-//             pt: 84,
-//             adv: 168,
-//             deliveryComission: 173.2,
-//             processing: 0,
-//             commissionTotal: 593.2,
-//             tax: 176.55,
-//             costsWithoutPurchase: 1324.59,
-//             profit: 75.42,
-//             CP: ozoneCalc.profit,
-//             ROI: 1.055,
-//         }
-//     }
