@@ -4,6 +4,8 @@
     width: 70%;
     padding: 20px;
     margin-left: 20%;
+    // margin-top: 50px;
+    margin-bottom: 50px;
     & form {
         display: grid;
         grid-template-columns: 3fr 1fr 1fr;
@@ -21,6 +23,7 @@
             width: 5rem;
             height: 50%;
             border-radius: 5%;
+            border: 1px solid black;
 
         }
         & .min_profit{

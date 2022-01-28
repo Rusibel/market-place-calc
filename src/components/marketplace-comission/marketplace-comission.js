@@ -1,31 +1,40 @@
 import React from "react";
+import {useSelector, shallowEqual} from 'react-redux';
+import TableRow from "../table-row/table-row";
 import Row from "../row/row";
 import {connect} from 'react-redux';
 import './marketplace-comission.scss'
 
-function MarketplaceComission ({state, filterState}) {
+function MarketplaceComission ({filterState}) {
 
+    const state = useSelector(state => state, shallowEqual)
 
     const filteredState = filterState(state, "output", "fixCommission", "delivery", "federal", "acceptance", "magistral", "lastMile", "dkYm", "pt")
     const inputs = ["magistral", "dkYm", "pt"];
 
-    const header = <Row classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
-    const headerVal = <Row classNames="" data={filteredState.headerVal}  prefix='headerVal' filterState={filterState} inputs={inputs}/>
-    const ozone = <Row classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={["acceptance", "fixCommission"]}/>
-    const wb = <Row classNames="" data={filteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={["acceptance", "fixCommission"]}/>
-    const yMarket = <Row classNames="" data={filteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={["acceptance", "fixCommission"]}/>
+    const header = <TableRow classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
+    const headerVal = <TableRow classNames="table__header" data={filteredState.headerVal}  prefix='headerVal' filterState={filterState} inputs={inputs}/>
+    const ozone = <TableRow classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={["acceptance"]}/>
+    const wb = <TableRow classNames="" data={filteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={["acceptance"]}/>
+    const yMarket = <TableRow classNames="" data={filteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={["acceptance"]}/>
 
     return (
-        <>
+
+        <div className="table__form__comission">
             <h1>Комиссии маркетплейсов</h1>
-            <form className="table__form__comission">
-                {header}
-                {headerVal}
-                {ozone}
-                {wb}
-                {yMarket}
-            </form>
-        </>
+            <table>
+                <thead className="table__header">
+                    {header}
+                    {headerVal}
+                </thead>
+                <tbody>
+                    {ozone}
+                    {wb}
+                    {yMarket}
+                </tbody>                             
+            </table>
+        </div>
+
     )
 }
 

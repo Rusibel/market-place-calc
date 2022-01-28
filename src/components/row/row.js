@@ -7,7 +7,7 @@ import './row.scss'
 export default function Row ({data, classNames, prefix, inputs}) {
 
     const row = Object.entries(data).map((item) => {
-        
+      
         if (item[0] === 'heightWidthLength' && prefix !== 'header' && prefix !== 'ozoneCalc'){
             return <Input
             classNames={classNames}
