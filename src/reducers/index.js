@@ -46,7 +46,7 @@ const initialState = {
     headerVal: {
         output: 0,
         buy1pc: 0,
-        cell1pc: 0,
+        cell1pc: 1000,
         marketplaceCommission : 0,
         dep: 0,
         weight: 0,
@@ -175,83 +175,256 @@ const initialState = {
         costsWithoutPurchase: 1083.1,
         profit: 316.90
     }
-}
+};
 
+function calcParam(state, action, pref) {
+
+    const prefix = state[pref]
+    prefix[action.param] = +action.payload;
+
+    let {output,
+    buy1pc,
+    cell1pc,
+    marketplaceCommission,
+    weight,
+    heightWidthLength,
+    CP: cp,
+    ROI: roi,
+    buyMax,
+    cellMin,
+    cellZero,
+    PackRentPacker: packRentPacker,
+    returns,
+    reject,
+    rejectPrice,
+    fixCommission,
+    delivery,
+    federal,
+    acceptance,
+    magistral,
+    lastMile,
+    dkYm,
+    pt,
+    adv,
+    deliveryComission,
+    processing,
+    commissionTotal,
+    tax,
+    costsWithoutPurchase,
+    profit} = prefix;
+
+    
+    
+    const {limitSum, minProfit, maxProfit, minClearProfit} = state.managerSettings,
+            cheapGoodsRoi =  minProfit + 1,
+            expensiveGoodsRoi = maxProfit + 1;
+
+        delivery = heightWidthLength ? 250 : (weight >= 15) ? 350 : (cell1pc*0.04 < 55) ? 55 : (cell1pc*0.04 > 200) ? 200 : cell1pc*0.04
+        federal = (cell1pc*0.01) >= 100 ? 100 : (cell1pc*0.01) > 10 ? cell1pc*0.01 : 10;
+        packRentPacker = state.headerVal.PackRentPacker.length === 0 ? null : +state.headerVal.PackRentPacker;
+        magistral = state.headerVal.magistral*weight < 5 ? 5 : state.headerVal.magistral*weight > 500 ? 500 : state.headerVal.magistral*weight
+        lastMile = (cell1pc*0.044 <= 50) ? 50 : (cell1pc*0.044 < 200) ? cell1pc*0.044 : 200
+        deliveryComission = acceptance + magistral + lastMile;
+        dkYm = +state.headerVal.dkYm * 0.01 * cell1pc;
+        pt = +state.headerVal.pt * 0.01 * cell1pc;
+        processing = cell1pc*0.01;
+        commissionTotal = cell1pc*marketplaceCommission*0.01 - deliveryComission;
+        adv = +state.headerVal.adv*cell1pc*0.01;
+        returns = state.headerVal.returns;
+        rejectPrice = packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm + pt + adv + 20;
+        tax = (cell1pc - commissionTotal)*0.08;
+        costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax;
+        cellZero = buy1pc + costsWithoutPurchase;
+        cellMin = (cell1pc > state.managerSettings.limitSum) ? 
+                    Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase)) : 
+                    ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase);
+        buyMax = ((cell1pc > limitSum)) ? 
+                    Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
+                    ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
+        profit = cell1pc - buy1pc - costsWithoutPurchase;
+        cp = profit;
+        roi = (cp + buy1pc) / buy1pc;
+
+    const newState =  {
+        ...state[pref],
+
+            CP: cp,
+            ROI: roi,
+            buyMax: buyMax,
+            cellMin: cellMin,
+            cellZero: cellZero,
+            PackRentPacker: packRentPacker,
+            returns: returns,
+            reject: reject,
+            rejectPrice: rejectPrice,
+            fixCommission,
+            delivery: delivery,
+            federal: federal,
+            acceptance,
+            magistral: magistral,
+            lastMile: lastMile,
+            dkYm: dkYm,
+            pt: pt,
+            adv: adv,
+            deliveryComission,
+            processing: processing,
+            commissionTotal: commissionTotal,
+            tax: tax,
+            costsWithoutPurchase: costsWithoutPurchase,
+            profit: profit,
+
+    }
+    return newState
+
+}
 
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_VAL':
+
             const prefix = state[action.prefix];
-            let {output,
-            buy1pc,
-            cell1pc,
-            marketplaceCommission,
-            weight,
-            heightWidthLength,
-            CP: cp,
-            ROI: roi,
-            buyMax,
-            cellMin,
-            cellZero,
-            PackRentPacker: packRentPacker,
-            returns,
-            reject,
-            rejectPrice,
-            fixCommission,
-            delivery,
-            federal,
-            acceptance,
-            magistral,
-            lastMile,
-            dkYm,
-            pt,
-            adv,
-            deliveryComission,
-            processing,
-            commissionTotal,
-            tax,
-            costsWithoutPurchase,
-            profit} = prefix;
+            prefix[action.param] = +action.payload;
+            console.log(calcParam(state, action, 'ozoneCalc'))
+            const ozoneCalc = calcParam(state, action, 'ozoneCalc'),
+                  wbCalc = calcParam(state, action, 'wbCalc'),
+                  yMarketCalc = calcParam(state, action, 'yMarketCalc');
+            // let {output,
+            // buy1pc,
+            // cell1pc,
+            // marketplaceCommission,
+            // weight,
+            // heightWidthLength,
+            // CP: cp,
+            // ROI: roi,
+            // buyMax,
+            // cellMin,
+            // cellZero,
+            // PackRentPacker: packRentPacker,
+            // returns,
+            // reject,
+            // rejectPrice,
+            // fixCommission,
+            // delivery,
+            // federal,
+            // acceptance,
+            // magistral,
+            // lastMile,
+            // dkYm,
+            // pt,
+            // adv,
+            // deliveryComission,
+            // processing,
+            // commissionTotal,
+            // tax,
+            // costsWithoutPurchase,
+            // profit} = prefix;
 
-            prefix[action.param] = action.payload;
-            packRentPacker = state.headerVal.PackRentPacker.length === 0 ? null : state.headerVal.PackRentPacker;
-            magistral = state.headerVal.magistral*weight < 5 ? 5 : state.headerVal.magistral*weight > 500 ? 500 : state.headerVal.magistral*weight
-            lastMile = (cell1pc) => {
-                if (cell1pc*0.044 < 200){
-                    if (cell1pc*0.044 > 50) {
-                        return cell1pc*0.044
-                    } else {
-                        return 50
-                    }
-                } 
-                return 200
-            }
-            deliveryComission = acceptance + magistral + lastMile;
-            dkYm = state.headerVal.dkYm*cell1pc*0.01;
-            pt = state.headerVal.pt*cell1pc*0.01;
-            commissionTotal = cell1pc*marketplaceCommission*0.01 - deliveryComission;
-            adv = state.headerVal.adv*cell1pc*0.01;
-            returns = state.headerVal.returns;
-            rejectPrice = packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm + pt + adv + 20;
-            tax = (cell1pc - commissionTotal)*0.08;
-            costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax
-            profit = cell1pc - buy1pc - costsWithoutPurchase;
-            cp = profit;
+            // prefix[action.param] = action.payload;
             
+            // const {limitSum, minProfit, maxProfit, minClearProfit} = state.managerSettings,
+            //       cheapGoodsRoi =  minProfit + 1,
+            //       expensiveGoodsRoi = maxProfit + 1;
+            // console.log(state.headerVal.pt)
+            // console.log(action.prefix)
+            // console.log(state[action.prefix])
+            // if (action.prefix !== 'headerVal') {
 
-
-
+            // }
+            // if (action.prefix !== 'headerVal') {
+            //     delivery = heightWidthLength ? 250 : (weight >= 15) ? 350 : (cell1pc*0.04 < 55) ? 55 : (cell1pc*0.04 > 200) ? 200 : cell1pc*0.04
+            //     federal = (cell1pc*0.01) >= 100 ? 100 : (cell1pc*0.01) > 10 ? cell1pc*0.01 : 10;
+            //     packRentPacker = state.headerVal.PackRentPacker.length === 0 ? null : +state.headerVal.PackRentPacker;
+            //     magistral = state.headerVal.magistral*weight < 5 ? 5 : state.headerVal.magistral*weight > 500 ? 500 : state.headerVal.magistral*weight
+            //     lastMile = (cell1pc*0.044 <= 50) ? 50 : (cell1pc*0.044 < 200) ? cell1pc*0.044 : 200
+            //     deliveryComission = acceptance + magistral + lastMile;
+            //     dkYm = +state.headerVal.dkYm * 0.01 * cell1pc;
+            //     pt = +state.headerVal.pt * 0.01 * cell1pc;
+            //     processing = cell1pc*0.01;
+            //     commissionTotal = cell1pc*marketplaceCommission*0.01 - deliveryComission;
+            //     adv = +state.headerVal.adv*cell1pc*0.01;
+            //     returns = state.headerVal.returns;
+            //     rejectPrice = packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm + pt + adv + 20;
+            //     tax = (cell1pc - commissionTotal)*0.08;
+            //     costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax;
+            //     cellZero = buy1pc + costsWithoutPurchase;
+            //     cellMin = (cell1pc > state.managerSettings.limitSum) ? 
+            //               Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase)) : 
+            //               ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase);
+            //     buyMax = ((cell1pc > limitSum)) ? 
+            //               Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
+            //               ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
+            //     profit = cell1pc - buy1pc - costsWithoutPurchase;
+            //     cp = profit;
+            //     roi = (cp + buy1pc) / buy1pc;
+            // } 
+            
+            // console.log(output,
+            //     buy1pc,
+            //     cell1pc,
+            //     marketplaceCommission,
+            //     weight,
+            //     heightWidthLength,
+            //     cp,
+            //     roi,
+            //     buyMax,
+            //     cellMin,
+            //     cellZero,
+            //     packRentPacker,
+            //     returns,
+            //     reject,
+            //     rejectPrice,
+            //     fixCommission,
+            //     delivery,
+            //     federal,
+            //     acceptance,
+            //     magistral,
+            //     lastMile,
+            //     dkYm,
+            //     pt,
+            //     adv,
+            //     deliveryComission,
+            //     processing,
+            //     commissionTotal,
+            //     tax,
+            //     costsWithoutPurchase,
+            //     profit)
+            
 
             return {
                 ...state, 
                 [action.prefix]: {
                     ...state[action.prefix],
                     [action.param]: +action.payload,   
-                    costsWithoutPurchase: costsWithoutPurchase,     
-                    profit: profit,
-                    CP: cp,
-                }
+                    // CP: cp,
+                    // ROI: roi,
+                    // buyMax: buyMax,
+                    // cellMin: cellMin,
+                    // cellZero: cellZero,
+                    // PackRentPacker: packRentPacker,
+                    // returns: returns,
+                    // reject: reject,
+                    // rejectPrice: rejectPrice,
+                    // fixCommission,
+                    // delivery: delivery,
+                    // federal: federal,
+                    // acceptance,
+                    // magistral: magistral,
+                    // lastMile: lastMile,
+                    // dkYm: dkYm,
+                    // pt: pt,
+                    // adv: adv,
+                    // deliveryComission,
+                    // processing: processing,
+                    // commissionTotal: commissionTotal,
+                    // tax: tax,
+                    // costsWithoutPurchase: costsWithoutPurchase,
+                    // profit: profit,
+                    // [action.param]: +action.payload
+                },
+                ozoneCalc,
+                wbCalc,
+                yMarketCalc
             }
         default:
           return state;

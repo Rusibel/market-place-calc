@@ -11,9 +11,9 @@ function MarketplaceComission ({state, filterState}) {
 
     const header = <Row classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
     const headerVal = <Row classNames="" data={filteredState.headerVal}  prefix='headerVal' filterState={filterState} inputs={inputs}/>
-    const ozone = <Row classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={["acceptance"]}/>
-    const wb = <Row classNames="" data={filteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={["acceptance"]}/>
-    const yMarket = <Row classNames="" data={filteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={["acceptance"]}/>
+    const ozone = <Row classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={["acceptance", "fixCommission"]}/>
+    const wb = <Row classNames="" data={filteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={["acceptance", "fixCommission"]}/>
+    const yMarket = <Row classNames="" data={filteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={["acceptance", "fixCommission"]}/>
 
     return (
         <>
