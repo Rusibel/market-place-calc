@@ -1,13 +1,12 @@
 import React from "react";
 import './cell.scss'
 
-export default function Cell ({value, classNames, id}) {
+export default function Cell ({value, classNames, id, rub = ''}) {
     classNames = 'cell ' + classNames
-    // let cell = () => {
-
-    // }
+   
+    
 
     return (
-        <div className={classNames} id={id}>{value}</div>
+        <div className={classNames} id={id}>{value + rub}</div>
     )
 }

@@ -5,9 +5,13 @@ import Select from '../select/select'
 import './table-row.scss'
 // import store from "../../store";
 
-export default function TableRow ({data, classNames, prefix, inputs}) {
+export default function TableRow ({data, classNames, prefix, inputs, select = []}) {
+
     
+
     const row = Object.entries(data).map((item) => {
+
+        const rub = item[1] ? ' ₽' : '';
 
         if (item[0] === 'marketplaceCommission' && prefix === 'header'){
             return (
@@ -32,6 +36,7 @@ export default function TableRow ({data, classNames, prefix, inputs}) {
                     id={item[0]+'__'+prefix} 
                     prefix={prefix}
                     param={item[0]}
+                    rub={rub}
                     />
                 </td>
             )        
@@ -51,9 +56,11 @@ export default function TableRow ({data, classNames, prefix, inputs}) {
                 </td>
             )
         }else 
-        if ((item[0] === 'marketplaceCommission' && prefix === 'ozoneCalc' ) || 
-            (item[0] === 'marketplaceCommission' && prefix ===  'wbCalc') || 
-            (item[0] === 'marketplaceCommission' && prefix === 'yMarketCalc')){
+        if (select.includes(item[0]))
+        // ((item[0] === 'marketplaceCommission' && (prefix === 'ozoneCalc' || prefix ===  'wbCalc' || prefix === 'yMarketCalc' ))) 
+        //     (prefix ===  'headerVal' && item[0] === 'marketplaceCommission' ||  ) || 
+            // (item[0] === 'marketplaceCommission' && prefix === 'yMarketCalc'))
+            {
             return (
                 <td key={item[0]+prefix}>
                     <Select

@@ -15,11 +15,12 @@ function ProductCriteria ({filterState}) {
     const thirdRowFilteredState = filterState(state, "output", "marketplaceCommission", "dep")
 
     const inputs = ["buy1pc", "cell1pc", "marketplaceCommission", "weight", "heightWidthLength"];
+    const select = ["marketplaceCommission"];
 
     const header = <TableRow classNames="table__header" data={headerFilteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
-    const ozone = <TableRow classNames="" data={firstRowFilteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={inputs}/>
-    const wb = <TableRow classNames="" data={secondRowFilteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={inputs}/>
-    const yMarket = <TableRow classNames="" data={thirdRowFilteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={inputs}/>
+    const ozone = <TableRow classNames="" data={firstRowFilteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={inputs} select={select}/>
+    const wb = <TableRow classNames="" data={secondRowFilteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={inputs} select={select}/>
+    const yMarket = <TableRow classNames="" data={thirdRowFilteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={inputs} select={select}/>
     console.log(state);
     return (
 //        

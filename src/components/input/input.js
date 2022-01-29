@@ -11,14 +11,14 @@ function addInputsValMasterdata ({e, param='', prefix=''}) {
 }
 
 
-export default function Input ({value, id, classNames, checkbox, prefix, param}) {
+export default function Input ({value, id, classNames, checkbox, prefix, param, rub=''}) {
     const state = useSelector(state => state, shallowEqual)
 
     const [addValActionDispatch] = useActions([addInputsVal]);
     const addVal = useCallback((e) => addValActionDispatch({e, param: param, prefix: prefix}), [addValActionDispatch]);
     const [addValMasterdataActionDispatch] = useActions([addInputsValMasterdata]);
     const addValMasterdata = useCallback((e) => addValMasterdataActionDispatch({e, param: param, prefix: prefix}), [addValActionDispatch]);
-
+    classNames =  'input ' + classNames
     // const label = label ? <label htmlFor={param}>{label}</label> : ""
     let input;
     if (checkbox){
@@ -42,7 +42,7 @@ export default function Input ({value, id, classNames, checkbox, prefix, param})
         prefix={prefix}
         />
     }
-    classNames =  'input ' + classNames
+    
 
 
 

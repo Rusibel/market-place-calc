@@ -8,11 +8,11 @@ import './adv-total.scss'
 function AdvTotal ({filterState}) {
     const state = useSelector(state => state, shallowEqual)
 
-    const filteredState = filterState(state, "output", "adv", "deliveryComission", "processing", "commissionTotal", "tax", "costsWithoutPurchase", "profit")
+    const filteredState = filterState(state, "output", "deliveryComission", "processing", "commissionTotal", "tax", "costsWithoutPurchase", "profit")
     // const inputs = ["adv", "tax"];
 
     const header = <TableRow classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
-    const headerVal = <TableRow classNames="table__header" data={filteredState.headerVal}  prefix='headerVal' filterState={filterState} inputs={["adv"]}/>
+    const headerVal = <TableRow classNames="table__header" data={filteredState.headerVal}  prefix='headerVal' filterState={filterState} inputs={[]}/>
     const ozone = <TableRow classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={[]}/>
     const wb = <TableRow classNames="" data={filteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={[]}/>
     const yMarket = <TableRow classNames="" data={filteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={[]}/>
@@ -23,7 +23,7 @@ function AdvTotal ({filterState}) {
             <table>
                 <thead className="table__header">
                     {header}
-                    {headerVal}
+                    {/* {headerVal} */}
                 </thead>
                 <tbody>
                     {ozone}

@@ -27,7 +27,7 @@ export default function Select ({id, classNames, prefix, param}) {
     // console.log(optionsOfSelect())
 
     let select = <select
-        type='checkbox'
+        // type='checkbox'
         value={state[prefix][param]}
         id={id}
         className={classNames}

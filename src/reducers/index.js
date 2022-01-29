@@ -92,8 +92,8 @@ const initialState = {
         cellMin: 3004.58,
         cellZero: 2724.58,
         PackRentPacker: 45,
-        returns: 0.1,
-        reject: 0.03,
+        returns: 10,
+        reject: 3,
         rejectPrice: 758.4,
         fixCommission: 0,
         delivery: 0,
@@ -125,8 +125,8 @@ const initialState = {
         cellMin: 2763.1,
         cellZero: 2483.1,
         PackRentPacker: 45,
-        returns: 0.1,
-        reject: 0.03,
+        returns: 10,
+        reject: 3,
         rejectPrice: 329,
         fixCommission: 0,
         delivery: 30,
@@ -158,8 +158,8 @@ const initialState = {
         cellMin: 2763.1,
         cellZero: 2483.1,
         PackRentPacker: 45,
-        returns: 0.1,
-        reject: 0.03,
+        returns: 10,
+        reject: 3,
         rejectPrice: 329,
         fixCommission: 30,
         delivery: 112,
@@ -244,14 +244,18 @@ function calcParam(state, action, pref) {
                     prefix.magistral;                    
         lastMile = (pref === 'ozoneCalc') ? ((cell1pc*0.044 <= 50) ? 50 : (cell1pc*0.044 < 200) ? cell1pc*0.044 : 200) :
                     prefix.lastMile;
-        deliveryComission = acceptance + magistral + lastMile;
+        deliveryComission = (pref === 'ozoneCalc') ? (acceptance + magistral + lastMile) :
+                            (pref === 'yMarketCalc') ? (fixCommission + delivery + federal) : 0
         dkYm = +state.headerVal.dkYm * 0.01 * cell1pc;
         pt = +state.headerVal.pt * 0.01 * cell1pc;
         processing = cell1pc*0.01;
-        commissionTotal = cell1pc*marketplaceCommission*0.01 - deliveryComission;
+        commissionTotal = cell1pc*marketplaceCommission*0.01 + deliveryComission;
         adv = +state.headerVal.adv*cell1pc*0.01;
         returns = state.headerVal.returns;
-        rejectPrice = packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm + pt + adv + 20;
+        reject = state.headerVal.reject;
+        rejectPrice = (pref === 'ozoneCalc') ? (packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm + pt + adv + 20) :
+                      (pref === 'wbCalc') ? (delivery*2 + packRentPacker + dkYm + pt + adv) : 
+                      (pref === 'yMarketCalc') ? (delivery*2 + packRentPacker + dkYm + pt + adv + fixCommission) : 0;
         tax = (cell1pc - commissionTotal)*0.08;
         costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax;
         cellZero = buy1pc + costsWithoutPurchase;
