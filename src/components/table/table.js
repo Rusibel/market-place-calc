@@ -7,6 +7,7 @@ import MarketplaceComission from "../marketplace-comission/marketplace-comission
 import AdvTotal from "../adv-total/adv-total";
 import filterState from "../filters/filterState";
 import ManagerSettings from "../manager-settings/manager-settings";
+import LinkBlock from "../link-block/link-block";
 import './table.scss'
 
 function Table () {
@@ -14,6 +15,7 @@ function Table () {
 
     return (
         <div className="table">
+            <LinkBlock />
             <ManagerSettings filterState={filterState}/>
             <ProductCriteria filterState={filterState}/>
             <PriceRecomendation filterState={filterState}/>

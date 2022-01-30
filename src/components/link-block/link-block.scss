@@ -1,4 +1,6 @@
 .link__block {
+    display: flex;
+    justify-content: flex-end;
     &__item{
         margin: 10px;
         & span {

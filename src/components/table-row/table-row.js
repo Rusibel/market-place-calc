@@ -16,7 +16,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         
         if(state[prefix].profit > 0){
             if(state.masterdata.cell1pc <= state.managerSettings.limitSum){
-                if(state[prefix].ROI >= (state.managerSettings.minProfit + 1)){
+                if(state[prefix].ROI >= (state.managerSettings.minProfit + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
                     // rowClassnames = 'table__row__green'
                     return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix};
                     // console.log('success')
@@ -24,7 +24,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix};}
             } else {
                 if(state[prefix].CP >= state.managerSettings.minProfit){
-                    if(state[prefix].ROI >= (state.managerSettings.maxProfit + 1)){
+                    if(state[prefix].ROI >= (state.managerSettings.maxProfit + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
             
                         return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix };
                     } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix,} }
@@ -84,21 +84,21 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 </td>
             )        
         }else
-        if ((item[0] === 'dep' && prefix !== 'header')){
-            let url = prefix === 'ozoneCalc' ? 'https://calculator.ozon.ru' : prefix === 'wbCalc' ? 'https://seller.wildberries.ru/dynamic-product-categories' : "https://yandex.ru/legal/marketplace_services_rate_table/"
-            return (
-                <td key={item[0]+prefix} className={tdClassNames} >
-                    <Link
-                    classNames={''}
-                    key={item[0]+prefix} 
-                    value={item[1]}
-                    id={item[0]+'__'+prefix}
-                    prefix={prefix}
-                    url={url}/>
-                </td>
-            )        
-        }else
-        if ((item[0] === 'limitSum' || item[0] === 'packRentPackerTotal' || item[0] === 'numberOfShipments' || item[0] === 'packRentPacker1pc')  && prefix === 'managerSettings'){
+        // if ((item[0] === 'dep' && prefix !== 'header')){
+        //     let url = prefix === 'ozoneCalc' ? 'https://calculator.ozon.ru' : prefix === 'wbCalc' ? 'https://seller.wildberries.ru/dynamic-product-categories' : "https://yandex.ru/legal/marketplace_services_rate_table/"
+        //     return (
+        //         <td key={item[0]+prefix} className={tdClassNames} >
+        //             <Link
+        //             classNames={''}
+        //             key={item[0]+prefix} 
+        //             value={item[1]}
+        //             id={item[0]+'__'+prefix}
+        //             prefix={prefix}
+        //             url={url}/>
+        //         </td>
+        //     )        
+        // }else
+        if ((item[0] === 'limitSum' || item[0] === 'packRentPackerTotal' || item[0] === 'numberOfShipments')  && prefix === 'managerSettings'){
             return (
                 <td rowSpan={2} key={item[0]+prefix} className={tdClassNames} >
                     <Input
@@ -112,7 +112,20 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                     />
                 </td>
             )        
-        }else      
+        }else
+        if ((item[0] === 'packRentPacker1pc')  && prefix === 'managerSettings'){
+            return (
+                <td rowSpan={2} key={item[0]+prefix} className={tdClassNames} >
+                    <Cell
+                    classNames={classNames}
+                    key={item[0]+prefix} 
+                    value={item[1]}
+                    id={item[0]+'__'+prefix}
+                    prefix={prefix} 
+                     />
+            </td>
+            )        
+        }else          
         if (item[0] === 'heightWidthLength' && prefix === 'wbCalc'){
             return (
                 <td rowSpan='2' key={item[0]+prefix} className={tdClassNames} >

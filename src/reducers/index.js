@@ -171,7 +171,7 @@ const initialState = {
         buy1pc: 1400,
         cell1pc: 2800,
         marketplaceCommission : 7,
-        dep: "-  зависит от продаж",
+        dep: "-  зависит от категории Маркет",
         weight: 100,
         heightWidthLength: 0,
         CP: 316.90,
@@ -241,7 +241,7 @@ function calcParam(state, action, pref) {
     costsWithoutPurchase,
     profit} = prefix;
     
-    const {limitSum, minProfit, maxProfit, minClearProfit} = state.managerSettings,            
+    let {limitSum, minProfit, maxProfit, minClearProfit, packRentPacker1pc} = state.managerSettings,            
             cheapGoodsRoi =  minProfit + 1,
             expensiveGoodsRoi = maxProfit + 1;
 
@@ -252,8 +252,8 @@ function calcParam(state, action, pref) {
                     prefix.delivery;
         federal = (pref === 'yMarketCalc') ? ((cell1pc*0.01) >= 100 ? 100 : (cell1pc*0.01) > 10 ? cell1pc*0.01 : 10) :
                   prefix.federal;
-
-        packRentPacker = +state.managerSettings.packRentPacker1pc;
+        // packRentPacker1pc = (+state.managerSettings.packRentPacker/ +state.managerSettings.numberOfShipments).toFixed(2);
+        packRentPacker = +(+state.managerSettings.packRentPackerTotal / +state.managerSettings.numberOfShipments).toFixed(2);
         magistral = (pref === 'ozoneCalc') ? (state.headerVal.magistral*(weight/1000) < 5 ? 5 : state.headerVal.magistral*(weight/1000) > 500 ? 500 : state.headerVal.magistral*(weight/1000)) :
                     prefix.magistral;                    
         lastMile = (pref === 'ozoneCalc') ? ((cell1pc*0.044 <= 50) ? 50 : (cell1pc*0.044 < 200) ? cell1pc*0.044 : 200) :
@@ -329,6 +329,7 @@ const reducer = (state = initialState, action) => {
         case 'ADD_VAL':
             const prefix = state[action.prefix];
             prefix[action.param] = +action.payload;
+            // const packRentPacker1pc = (+state.managerSettings.packRentPackerTotal / +state.managerSettings.numberOfShipments).toFixed(2)
             const ozoneCalc = calcParam(state, action, 'ozoneCalc'),
                   wbCalc = calcParam(state, action, 'wbCalc'),
                   yMarketCalc = calcParam(state, action, 'yMarketCalc');
@@ -338,6 +339,10 @@ const reducer = (state = initialState, action) => {
                 [action.prefix]: {
                     ...state[action.prefix],
                     [action.param]: +action.payload         
+                },
+                managerSettings:{
+                    ...state.managerSettings,
+                    packRentPacker1pc: (+state.managerSettings.packRentPackerTotal / +state.managerSettings.numberOfShipments).toFixed(2)
                 },
                 ozoneCalc,
                 wbCalc,
