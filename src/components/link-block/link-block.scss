@@ -1,0 +1,9 @@
+.link__block {
+    &__item{
+        margin: 10px;
+        & span {
+            margin: 30px;
+        }
+    }
+    
+}

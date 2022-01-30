@@ -1,20 +1,22 @@
-import React from "react";
-import Row from "../row/row";
+import React, { useEffect }  from "react";
+import { useSelector, shallowEqual } from 'react-redux';
+import { useActions } from '../../hooks/useActions';
 import TableRow from "../table-row/table-row";
-import {useSelector, shallowEqual} from 'react-redux';
+import LinkBlock from "../link-block/link-block";
 import './product-criteria.scss'
 
 
 
 function ProductCriteria ({filterState}) {
-    const state = useSelector(state => state, shallowEqual)
+    const state = useSelector(state => state, shallowEqual);
+
 
     const headerFilteredState = filterState(state, "output", "buy1pc", "cell1pc", "marketplaceCommission", "weight", "heightWidthLength")
     const firstRowFilteredState = filterState(state, "output", "buy1pc", "cell1pc", "marketplaceCommission", "dep", "weight", "heightWidthLength")
     const secondRowFilteredState = filterState(state, "output", "marketplaceCommission", "dep", "heightWidthLength")
     const thirdRowFilteredState = filterState(state, "output", "marketplaceCommission", "dep")
 
-    const inputs = ["buy1pc", "cell1pc", "marketplaceCommission", "weight", "heightWidthLength"];
+    const inputs = ["buy1pc", "cell1pc", "marketplaceCommission", "weight"];
     const select = ["marketplaceCommission"];
 
     const header = <TableRow classNames="table__header" data={headerFilteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
@@ -37,6 +39,7 @@ function ProductCriteria ({filterState}) {
                 </tbody>             
                 
             </table>
+            <LinkBlock/>
         </div>
     )
     

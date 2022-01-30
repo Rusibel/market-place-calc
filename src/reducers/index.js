@@ -80,6 +80,7 @@ const initialState = {
     },
     ozoneCalc: {
         output: "OZONE",
+        outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
         marketplaceCommission : 15,
@@ -113,6 +114,7 @@ const initialState = {
     },
     wbCalc: {
         output: "WB",
+        outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
         marketplaceCommission : 20,
@@ -146,9 +148,10 @@ const initialState = {
     },
     yMarketCalc: {
         output: "YMarket",
+        outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
-        marketplaceCommission : 20,
+        marketplaceCommission : 7,
         dep: "-  зависит от продаж",
         weight: 0.1,
         heightWidthLength: 0,
@@ -182,17 +185,17 @@ const initialState = {
 function calcParam(state, action, pref) {
 
     const prefix = state[pref]
-    console.log(prefix)
-    console.log(action.param)
-    console.log(prefix[action.param])
-    console.log(pref)
+    // console.log(prefix)
+    // console.log(action.param)
+    // console.log(prefix[action.param])
+    // console.log(pref)
     if(action.param === 'buy1pc' || action.param === 'cell1pc'){
         state.masterdata[action.param] = +action.payload}
     // } else {
     //     prefix[action.param] = +action.payload;
     // }
-    console.log(prefix[action.param])
-    console.log(state[pref])
+    // console.log(prefix[action.param])
+    // console.log(state[pref])
 
     let {output,
     buy1pc,
@@ -225,7 +228,7 @@ function calcParam(state, action, pref) {
     costsWithoutPurchase,
     profit} = prefix;
 
-    console.log(state[pref])
+    // console.log(state[pref])
     
     
     const {limitSum, minProfit, maxProfit, minClearProfit} = state.managerSettings,            
@@ -234,7 +237,7 @@ function calcParam(state, action, pref) {
 
         buy1pc = state.masterdata.buy1pc;
         cell1pc = state.masterdata.cell1pc;
-        delivery = (pref === 'yMarketCalc') ? (heightWidthLength ? 250 : (weight >= 15) ? 350 : (cell1pc*0.04 < 55) ? 55 : (cell1pc*0.04 > 200) ? 200 : cell1pc*0.04) :
+        delivery = (pref === 'yMarketCalc') ? (state.masterdata.heightWidthLength ? 250 : (weight >= 15) ? 350 : (cell1pc*0.04 < 55) ? 55 : (cell1pc*0.04 > 200) ? 200 : cell1pc*0.04) :
                     prefix.delivery;
         federal = (pref === 'yMarketCalc') ? ((cell1pc*0.01) >= 100 ? 100 : (cell1pc*0.01) > 10 ? cell1pc*0.01 : 10) :
                   prefix.federal;
@@ -268,7 +271,7 @@ function calcParam(state, action, pref) {
         profit = cell1pc - buy1pc - costsWithoutPurchase;
         cp = profit;
         roi = (cp + buy1pc) / buy1pc;
-        console.log(state[pref])
+        // console.log(state[pref])
     const newState =  {
         ...state[pref],
 
@@ -333,14 +336,36 @@ const reducer = (state = initialState, action) => {
                 yMarketCalc
             }
             case 'ADD_VAL_MASTERDATA': 
-                console.log(state)
                 return {
                     ...state,
                         masterdata: {
                             ...state.masterdata,
                             heightWidthLength: !state.masterdata.heightWidthLength
                         }
-                }
+            }
+            case 'ADD_VAL_OUTPUT_SUCCESS': 
+            const marketplaceName = (action.prefix === 'ozoneCalc') ? 'Озон' : (action.prefix === 'wbCalc') ? 'WB' : ' Я.Маркет'
+            return {
+                ...state, 
+                [action.prefix]: {
+                    ...state[action.prefix],
+                    output: `Срочно выкладываем на ${marketplaceName}!`,
+                    outputCell: true     
+                },
+               
+            }
+            case 'ADD_VAL_OUTPUT_UNSUCCESS': 
+            const marketplaceNamess = (action.prefix === 'ozoneCalc') ? 'Озон' : (action.prefix === 'wbCalc') ? 'WB' : ' Я.Маркет'
+            return {
+                ...state, 
+                [action.prefix]: {
+                    ...state[action.prefix],
+                    output: `На ${marketplaceNamess} не продаем, ищем дальше!`,
+                    outputCell: false                         
+                },
+               
+            }
+                    
         default:
           return state;
       }

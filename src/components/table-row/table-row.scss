@@ -1,4 +1,13 @@
-.table_rows {
+.table__row {
+    &__green {
+        background-color: #B7E1CD;
+    }
+    &__red {
+        background-color: #EA4335;
+    }
+    &__yellow {
+        background-color: #FFF2CC;
+    }
     // display: grid;
     // grid-template-rows: repeat(31, 50px);
     // padding: 3px;

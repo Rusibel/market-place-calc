@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useCallback }  from "react";
+import { useSelector, shallowEqual } from 'react-redux';
+import { useActions } from '../../hooks/useActions';
 import Cell from "../cell/cell";
 import Input from '../input/input'
 import Select from '../select/select'
@@ -7,15 +9,73 @@ import './table-row.scss'
 
 export default function TableRow ({data, classNames, prefix, inputs, select = []}) {
 
-    
+    const state = useSelector(state => state, shallowEqual);
+    // let rowClassnames = 
+    // (prefix !== 'header' && prefix !== 'headerVal') ? 
+    //                     ((!state[prefix].outputCell) ? 'table__row__red' : 'table__row__green') : 
+    //                     'table__header'
+    function calcOutputVal ({e, prefix=''}) {
+        
+        if(state[prefix].profit > 0){
+            if(state.masterdata.cell1pc <= state.managerSettings.limitSum){
+                if(state[prefix].ROI >= (state.managerSettings.minProfit + 1)){
+                    // rowClassnames = 'table__row__green'
+                    return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix};
+                    // console.log('success')
+                } else { 
+                return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix};}
+            } else {
+                if(state[prefix].CP >= state.managerSettings.minProfit){
+                    if(state[prefix].ROI >= (state.managerSettings.maxProfit + 1)){
+                        // rowClassnames = 'table__row__red'
+                        return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix };
+                    } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix,} }
+                } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix}}
+            } 
+        }  else { state[prefix].output  =( 'На OZON не продаём, ищем дальше!')}
+        return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix}
+      }
+      
+    const [calcOutputValDispatch] = useActions([calcOutputVal]);
+    const outputVal = useCallback((e) => calcOutputValDispatch({e, prefix: prefix}), [calcOutputValDispatch]);
+
+
+    useEffect(() => {
+        if( prefix !== 'header' && prefix !== 'headerVal'){
+            outputVal();
+            console.log(state[prefix].output.length)
+        }
+        // if(state[prefix].profit > 0){
+        //     if(state.masterdata.cell1pc <= state.managerSettings.limitSum){
+        //         if(state[prefix].ROI >= (state.managerSettings.minProfit + 1)){
+        //             state[prefix].output = ( 'Срочно выкладываем на Ozone')
+        //         } else { state[prefix].output = 'На OZON не продаём, ищем дальше!'}
+        //     } else {
+        //         if(state[prefix].CP >= state.managerSettings.minProfit){
+        //             if(state[prefix].ROI >= (state.managerSettings.maxProfit + 1)){
+        //                 state[prefix].output = ( 'Срочно выкладываем на Ozone')
+        //             } else { state[prefix].output = 'На OZON не продаём, ищем дальше!' }
+        //         } else { state[prefix].output = 'На OZON не продаём, ищем дальше!'}
+        //     } 
+        // }  else { state[prefix].output  =( 'На OZON не продаём, ищем дальше!')}
+        // console.log(state)
+    }, [state[prefix].CP, state[prefix].ROI]);
 
     const row = Object.entries(data).map((item) => {
 
+        let tdClassNames = (item[0] !== 'buy1pc' && item[0] !== 'cell1pc' && item[0] !== 'marketplaceCommission' && item[0] !== 'weight' && item[0] !== 'heightWidthLength' && item[0] !== 'dep') ?
+                                ((prefix !== 'header' && prefix !== 'headerVal') ? 
+                                    ((!state[prefix].outputCell) ? 'table__row__red' : 'table__row__green') : 
+                                    'table__header'
+                            ) : ((prefix !== 'header' && prefix !== 'headerVal') ? 
+                                    'table__row__yellow' : 'table__header')
+
+        classNames = classNames + ' ' + tdClassNames
         const rub = item[1] ? ' ₽' : '';
 
         if (item[0] === 'marketplaceCommission' && prefix === 'header'){
             return (
-                <td colSpan = '2' key={item[0]+prefix} >
+                <td colSpan = '2' key={item[0]+prefix}  className={tdClassNames} >
                     <Cell
                     classNames={classNames}
                     key={item[0]+prefix} 
@@ -28,7 +88,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         } else
         if ((item[0] === 'buy1pc' || item[0] === 'cell1pc' || item[0] === 'weight')  && prefix === 'ozoneCalc'){
             return (
-                <td rowSpan={3} key={item[0]+prefix}>
+                <td rowSpan={3} key={item[0]+prefix} className={tdClassNames} >
                     <Input
                     classNames={classNames}
                     key={item[0]+prefix} 
@@ -43,7 +103,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         }else      
         if (item[0] === 'heightWidthLength' && prefix === 'wbCalc'){
             return (
-                <td rowSpan='2' key={item[0]+prefix}>
+                <td rowSpan='2' key={item[0]+prefix} className={tdClassNames} >
                     <Input
                     classNames={classNames}
                     key={item[0]+prefix} 
@@ -62,7 +122,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
             // (item[0] === 'marketplaceCommission' && prefix === 'yMarketCalc'))
             {
             return (
-                <td key={item[0]+prefix}>
+                <td key={item[0]+prefix} className={tdClassNames}>
                     <Select
                     classNames={classNames}
                     key={item[0]+prefix} 
@@ -75,7 +135,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         } else
         if (inputs.includes(item[0])){
             return (
-                <td key={item[0]+prefix}>
+                <td key={item[0]+prefix} className={tdClassNames}  >
                     <Input
                     classNames={classNames}
                     key={item[0]+prefix} 
@@ -90,7 +150,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
       
         {
             return (
-                <td key={item[0]+prefix} >
+                <td key={item[0]+prefix} className={tdClassNames} >
                     <Cell
                     classNames={classNames}
                     key={item[0]+prefix} 
@@ -103,7 +163,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
     })
     // console.log(inputs.includes('dep'))
     return (
-        <tr>
+        <tr className=''>
             {row}
         </tr>
     )

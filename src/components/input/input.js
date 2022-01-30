@@ -10,6 +10,10 @@ function addInputsValMasterdata ({e, param='', prefix=''}) {
     return { type: 'ADD_VAL_MASTERDATA' };
 }
 
+// function inputsValidate (e) {
+//     const value = e.target.value.replace(/\D|-/ig, '');
+// }
+
 
 export default function Input ({value, id, classNames, checkbox, prefix, param, rub=''}) {
     const state = useSelector(state => state, shallowEqual)
@@ -30,11 +34,12 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
         prefix={prefix}
         checked={state.masterdata.heightWidthLength}
         onChange={addValMasterdata}
+        // onInput={inputsValidate}
         />
     } else {
         input = 
         <input
-        type='text'
+        type='number'
         placeholder={value}
         id={id}
         className={classNames}
