@@ -56,7 +56,8 @@ const initialState = {
         deliveryComission: "Комиссия Дост МП",
         processing: "Обработка",
         commissionTotal: "Комиссия МП Итог",
-        tax: "Налог, 7+1%",
+        tax: "Налог, 7%",
+        tax1per: "Налог, 1%",
         costsWithoutPurchase: "Косты без закупа",
         profit: "Прибыль "
     },
@@ -89,7 +90,8 @@ const initialState = {
         deliveryComission: 0,
         processing: 0,
         commissionTotal: 0,
-        tax: 0,
+        tax: 7,
+        tax1per: 1,
         costsWithoutPurchase: 0,
         profit: 0
     },
@@ -124,6 +126,7 @@ const initialState = {
         processing: 0,
         commissionTotal: 593.2,
         tax: 176.55,
+        tax1per: 55,
         costsWithoutPurchase: 1324.59,
         profit: 75.42
     },
@@ -158,6 +161,7 @@ const initialState = {
         processing: 0,
         commissionTotal: 560,
         tax: 179.20,
+        tax1per: 55,
         costsWithoutPurchase: 1083.1,
         profit: 316.9
     },
@@ -192,6 +196,7 @@ const initialState = {
         processing: 0,
         commissionTotal: 560,
         tax: 179.20,
+        tax1per: 55,
         costsWithoutPurchase: 1083.1,
         profit: 316.90
     }
@@ -232,6 +237,7 @@ function calcParam(state, action, pref) {
     processing,
     commissionTotal,
     tax,
+    tax1per,
     costsWithoutPurchase,
     profit} = prefix;
     
@@ -264,8 +270,9 @@ function calcParam(state, action, pref) {
         rejectPrice = (pref === 'ozoneCalc') ? (packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm + pt + adv + 20) :
                       (pref === 'wbCalc') ? (delivery*2 + packRentPacker + dkYm + pt + adv) : 
                       (pref === 'yMarketCalc') ? (delivery*2 + packRentPacker + dkYm + pt + adv + fixCommission) : 0;
-        tax = (cell1pc - commissionTotal)*0.08;
-        costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax;
+        tax = (cell1pc - commissionTotal)*0.07;
+        tax1per = (cell1pc - commissionTotal)*0.01;
+        costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax + tax1per;
         cellZero = buy1pc + costsWithoutPurchase;
         cellMin = (cell1pc > state.managerSettings.limitSum) ? 
                     Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase)) : 
@@ -303,6 +310,7 @@ function calcParam(state, action, pref) {
             processing: processing,
             commissionTotal: commissionTotal,
             tax: tax,
+            tax1per: tax1per,
             costsWithoutPurchase: costsWithoutPurchase,
             profit: profit,
 

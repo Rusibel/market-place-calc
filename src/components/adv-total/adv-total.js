@@ -8,7 +8,7 @@ import './adv-total.scss'
 function AdvTotal ({filterState}) {
     const state = useSelector(state => state, shallowEqual)
 
-    const filteredState = filterState(state, "output", "deliveryComission", "processing", "commissionTotal", "tax", "costsWithoutPurchase", "profit")
+    const filteredState = filterState(state, "output", "deliveryComission", "processing", "commissionTotal", "tax", "tax1per", "costsWithoutPurchase", "profit")
     // const inputs = ["adv", "tax"];
 
     const header = <TableRow classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>

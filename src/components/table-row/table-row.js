@@ -42,18 +42,18 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         if( prefix !== 'header' && prefix !== 'headerVal'){
             outputVal();
         }
-    }, [state[prefix].CP, state[prefix].ROI, state.managerSettings] );
+    }, [state[prefix].CP, state[prefix].ROI, state.managerSettings.maxProfit, state.managerSettings.minProfit, state.managerSettings.limitSum, state.managerSettings.minClearProfit, state.managerSettings.packRentPacker1pc] );
 
     const row = Object.entries(data).map((item) => {
 
         let tdClassNames = (item[0] !== 'buy1pc' && item[0] !== 'cell1pc' && item[0] !== 'marketplaceCommission' && item[0] !== 'weight' && item[0] !== 'heightWidthLength' && item[0] !== 'dep') ?
                                 ((prefix !== 'header' && prefix !== 'headerVal' && prefix !== 'managerSettings') ? 
-                                    ((!state[prefix].outputCell) ? 'table__row__red' : 'table__row__green') : 
-                                    'table__header'
+                                    ((!state[prefix].outputCell) ? 'table__row__red' : 'table__row__green') 
+                                    : (prefix === 'header' && prefix === 'headerVal') ? 'table__header' : ''
                             ) : ((prefix !== 'header' && prefix !== 'headerVal') ? 
-                                    'table__row__yellow' : 'table__header')
+                                    'table__row__yellow' : (prefix === 'header' && prefix === 'headerVal') ? 'table__header' : '')
 
-        classNames = classNames + ' ' + tdClassNames
+        classNames = ' ' + tdClassNames
         const rub = item[1] ? ' ₽' : '';
 
         if (item[0] === 'marketplaceCommission' && prefix === 'header'){

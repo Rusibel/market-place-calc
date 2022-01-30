@@ -20,7 +20,7 @@ export default function ManagerSettings ({filterState}) {
     const inputs = ["minProfit", 'maxProfit', "limitSum", "minClearProfit", "packRentPackerTotal", "numberOfShipments"];
     // const select = ["marketplaceCommission"];
 
-    const header = <TableRow classNames="table__header" data={headerFilteredState.managerSettings}  prefix='managerSettings' filterState={filterState} inputs={[]}/>
+    const header = <TableRow classNames="" data={headerFilteredState.managerSettings}  prefix='managerSettings' filterState={filterState} inputs={[]}/>
     const firstRow= <TableRow classNames="" data={firstRowFilteredState.managerSettings}  prefix='managerSettings' filterState={filterState} inputs={inputs} select={[]}/>
     const secondRow = <TableRow classNames="" data={secondRowFilteredState.managerSettings}  prefix='managerSettings' filterState={filterState} inputs={inputs} select={[]}/>
     // const yMarket = <TableRow classNames="" data={thirdRowFilteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={inputs} select={select}  />
