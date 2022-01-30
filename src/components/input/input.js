@@ -28,7 +28,7 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
     if (checkbox){
         input = <input
         type='checkbox'
-        // placeholder={value}
+        placeholder={value}
         id={id}
         className={classNames}
         prefix={prefix}
@@ -40,6 +40,7 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
         input = 
         <input
         type='number'
+        // value={value}
         placeholder={value}
         id={id}
         className={classNames}

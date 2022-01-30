@@ -15,20 +15,30 @@ h1 {
     //     background-color:#D9D9D9; 
     //     font-weight: 700;
     // }
+    // :nth-of-type(1){
+    //     width: 50px;
+    // }
     & table {
-        margin: auto;
+        // margin: auto;
+        width: 100%;
         margin-bottom: 70px;
         border-spacing: 0px;
         border-collapse: collapse;
     }
     & td {
-        border: thin solid black;
+        border-bottom: 2px solid rgba(73, 73, 73, 0.233);
         padding: 5px;
         // font-size: x-large;
         text-align: center;
+        &:nth-of-type(1){
+            width: 30%;
+        }
+        // &:nth-of-type(2){
+        //     width: 50px;
+        // }
     }
     & .table__header{
-        background-color:#D9D9D9; 
+        // background-color:#D9D9D9; 
         font-weight: 700;
     }
 }

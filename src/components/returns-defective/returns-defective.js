@@ -12,7 +12,8 @@ function ReturnsDefective ({filterState}) {
     const select = ["returns", "reject"];
 
     const header = <TableRow classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
-    const headerVal = <TableRow classNames="table__header" data={filteredState.headerVal}  prefix='headerVal' filterState={filterState} select={select} inputs={['PackRentPacker']}/>
+    const headerVal = <TableRow classNames="table__header" data={filteredState.headerVal}  prefix='headerVal' filterState={filterState} select={select} inputs={[]}/>
+    // const emptyRow = <TableRow classNames="" data={{}}  prefix='' filterState={''} inputs={[]}/>
     const ozone = <TableRow classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={[]}/>
     const wb = <TableRow classNames="" data={filteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={[]}/>
     const yMarket = <TableRow classNames="" data={filteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={[]}/>
@@ -24,6 +25,7 @@ function ReturnsDefective ({filterState}) {
                 <thead className="table__header">
                     {header}
                     {headerVal}
+                    {/* {emptyRow} */}
                 </thead>
                 <tbody>
                     

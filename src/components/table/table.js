@@ -6,6 +6,7 @@ import ReturnsDefective from "../returns-defective/returns-defective";
 import MarketplaceComission from "../marketplace-comission/marketplace-comission";
 import AdvTotal from "../adv-total/adv-total";
 import filterState from "../filters/filterState";
+import ManagerSettings from "../manager-settings/manager-settings";
 import './table.scss'
 
 function Table () {
@@ -13,6 +14,7 @@ function Table () {
 
     return (
         <div className="table">
+            <ManagerSettings filterState={filterState}/>
             <ProductCriteria filterState={filterState}/>
             <PriceRecomendation filterState={filterState}/>
             <ReturnsDefective filterState={filterState}/>

@@ -4,13 +4,28 @@ const initialState = {
     masterdata: {
         heightWidthLength: false,
         buy1pc: 1400,
-        cell1pc: 2800
+        cell1pc: 2800,
+        weight: 100
     },
     managerSettings: {
+        profitHeader: 'Сколько хотите зарабатывать?',
+        profitValHeader: "Рублей на 1 руб:",
+        minProfitHeader: "Хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль, если товар дешевле:",
         minProfit: 0.6,
+        maxProfitHeader: "Хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль, если товар дороже:",
         maxProfit: 0.2,
+        limitSumHeader: "Граница дорогого товара:",
         limitSum: 1000,
-        minClearProfit: 300
+        minClearProfitHeader: "C минимальной чистой прибылью:",
+        minClearProfitNull: "---",
+        minClearProfit: 300,
+        packRentPackerTotalHeader: "Упаковка, аренда и прочие расходы в месяц",
+        packRentPackerTotal: 4500,
+        numberOfShipmentsHeader: "Количество отгрузок в месяц",
+        numberOfShipments: 100,
+        packRentPacker1pcHeader: 'Расход на 1 упаковку',
+        packRentPacker1pc: 45,
+
     },
     header: {
         output: "Вывод",
@@ -18,7 +33,7 @@ const initialState = {
         cell1pc: "Продажа, 1 шт",
         marketplaceCommission : "Комиссия маркетплейса",
         dep: 0,
-        weight: "Вес, кг",
+        weight: "Вес, гр",
         heightWidthLength: "Высота + Ширина + Длина",
         CP: "ЧП",
         ROI: "ROI",
@@ -58,7 +73,7 @@ const initialState = {
         buyMax: 0,
         cellMin: 0,
         cellZero: 0,
-        PackRentPacker: 45,
+        PackRentPacker: 0,
         returns: 10,
         reject: 3,
         rejectPrice: 0,
@@ -85,7 +100,7 @@ const initialState = {
         cell1pc: 2800,
         marketplaceCommission : 15,
         dep: "-  зависит от категории OZON",
-        weight: 0.1,
+        weight: 100,
         heightWidthLength: "Если больше 150 см, жми ↓",
         CP: 75.5,
         ROI: 1.055,
@@ -119,7 +134,7 @@ const initialState = {
         cell1pc: 2800,
         marketplaceCommission : 20,
         dep: "-  зависит от продаж",
-        weight: 0.1,
+        weight: 100,
         heightWidthLength: 0,
         CP: 316.9,
         ROI: 1.23,
@@ -153,7 +168,7 @@ const initialState = {
         cell1pc: 2800,
         marketplaceCommission : 7,
         dep: "-  зависит от продаж",
-        weight: 0.1,
+        weight: 100,
         heightWidthLength: 0,
         CP: 316.90,
         ROI: 1.23,
@@ -185,17 +200,9 @@ const initialState = {
 function calcParam(state, action, pref) {
 
     const prefix = state[pref]
-    // console.log(prefix)
-    // console.log(action.param)
-    // console.log(prefix[action.param])
-    // console.log(pref)
+
     if(action.param === 'buy1pc' || action.param === 'cell1pc'){
         state.masterdata[action.param] = +action.payload}
-    // } else {
-    //     prefix[action.param] = +action.payload;
-    // }
-    // console.log(prefix[action.param])
-    // console.log(state[pref])
 
     let {output,
     buy1pc,
@@ -227,9 +234,6 @@ function calcParam(state, action, pref) {
     tax,
     costsWithoutPurchase,
     profit} = prefix;
-
-    // console.log(state[pref])
-    
     
     const {limitSum, minProfit, maxProfit, minClearProfit} = state.managerSettings,            
             cheapGoodsRoi =  minProfit + 1,
@@ -237,13 +241,14 @@ function calcParam(state, action, pref) {
 
         buy1pc = state.masterdata.buy1pc;
         cell1pc = state.masterdata.cell1pc;
-        delivery = (pref === 'yMarketCalc') ? (state.masterdata.heightWidthLength ? 250 : (weight >= 15) ? 350 : (cell1pc*0.04 < 55) ? 55 : (cell1pc*0.04 > 200) ? 200 : cell1pc*0.04) :
+        weight = state.masterdata.weight;
+        delivery = (pref === 'yMarketCalc') ? (state.masterdata.heightWidthLength ? 250 : (weight/1000 >= 15) ? 350 : (cell1pc*0.04 < 55) ? 55 : (cell1pc*0.04 > 200) ? 200 : cell1pc*0.04) :
                     prefix.delivery;
         federal = (pref === 'yMarketCalc') ? ((cell1pc*0.01) >= 100 ? 100 : (cell1pc*0.01) > 10 ? cell1pc*0.01 : 10) :
                   prefix.federal;
 
-        packRentPacker = state.headerVal.PackRentPacker.length === 0 ? null : +state.headerVal.PackRentPacker;
-        magistral = (pref === 'ozoneCalc') ? (state.headerVal.magistral*weight < 5 ? 5 : state.headerVal.magistral*weight > 500 ? 500 : state.headerVal.magistral*weight) :
+        packRentPacker = +state.managerSettings.packRentPacker1pc;
+        magistral = (pref === 'ozoneCalc') ? (state.headerVal.magistral*(weight/1000) < 5 ? 5 : state.headerVal.magistral*(weight/1000) > 500 ? 500 : state.headerVal.magistral*(weight/1000)) :
                     prefix.magistral;                    
         lastMile = (pref === 'ozoneCalc') ? ((cell1pc*0.044 <= 50) ? 50 : (cell1pc*0.044 < 200) ? cell1pc*0.044 : 200) :
                     prefix.lastMile;
@@ -271,7 +276,8 @@ function calcParam(state, action, pref) {
         profit = cell1pc - buy1pc - costsWithoutPurchase;
         cp = profit;
         roi = (cp + buy1pc) / buy1pc;
-        // console.log(state[pref])
+        // state.masterdata.cell1pc = +cellMin.toFixed()
+
     const newState =  {
         ...state[pref],
 
@@ -305,12 +311,8 @@ function calcParam(state, action, pref) {
         if (typeof(newState[key]) === 'number'){
             newState[key] = +newState[key].toFixed(2)
         }
-        // newState[key] = newState[key].toFixed(2)
     }
-    console.log(newState)
-    console.log(state[pref])
     return newState
-
 }
 
 
@@ -319,12 +321,10 @@ const reducer = (state = initialState, action) => {
         case 'ADD_VAL':
             const prefix = state[action.prefix];
             prefix[action.param] = +action.payload;
-            // console.log(calcParam(state, action, 'ozoneCalc'))
             const ozoneCalc = calcParam(state, action, 'ozoneCalc'),
                   wbCalc = calcParam(state, action, 'wbCalc'),
                   yMarketCalc = calcParam(state, action, 'yMarketCalc');
            
-
             return {
                 ...state, 
                 [action.prefix]: {

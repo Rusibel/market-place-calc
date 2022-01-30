@@ -1,7 +1,6 @@
 import React from "react";
 import {useSelector, shallowEqual} from 'react-redux';
 import TableRow from "../table-row/table-row";
-import {connect} from 'react-redux';
 import './price-recomendation.scss'
 
 function PriceRecomendation ({filterState}) {
@@ -20,6 +19,8 @@ function PriceRecomendation ({filterState}) {
         <div className="table__form__price">
             <h1>Рекомендации по цене</h1>
             <table>
+              
+
                 <thead className="table__header">
                     {header}
                 </thead>

@@ -8,7 +8,7 @@ export default function CalcOfRoi() {
   return (
     <div className="calc_of_roi">
 
-      <ManagerSettings/>
+      {/* <ManagerSettings/> */}
       <Table/>
       
     </div>

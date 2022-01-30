@@ -9,8 +9,7 @@ import './product-criteria.scss'
 
 function ProductCriteria ({filterState}) {
     const state = useSelector(state => state, shallowEqual);
-
-
+    // console.log(filterState)
     const headerFilteredState = filterState(state, "output", "buy1pc", "cell1pc", "marketplaceCommission", "weight", "heightWidthLength")
     const firstRowFilteredState = filterState(state, "output", "buy1pc", "cell1pc", "marketplaceCommission", "dep", "weight", "heightWidthLength")
     const secondRowFilteredState = filterState(state, "output", "marketplaceCommission", "dep", "heightWidthLength")
@@ -39,7 +38,7 @@ function ProductCriteria ({filterState}) {
                 </tbody>             
                 
             </table>
-            <LinkBlock/>
+            {/* <LinkBlock/> */}
         </div>
     )
     
