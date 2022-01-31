@@ -16,7 +16,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         
         if(state[prefix].profit > 0){
             if(state.masterdata.cell1pc <= state.managerSettings.limitSum){
-                if(state[prefix].ROI >= (state.managerSettings.minProfit + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
+                if(state[prefix].ROI >= (+state.managerSettings.minProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
                     // rowClassnames = 'table__row__green'
                     return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix};
                     // console.log('success')
@@ -24,7 +24,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix};}
             } else {
                 if(state[prefix].CP >= state.managerSettings.minProfit){
-                    if(state[prefix].ROI >= (state.managerSettings.maxProfit + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
+                    if(state[prefix].ROI >= (+state.managerSettings.maxProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
             
                         return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix };
                     } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix,} }

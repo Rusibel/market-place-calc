@@ -9,21 +9,21 @@ const initialState = {
     },
     managerSettings: {
         profitHeader: 'Сколько хотите зарабатывать?',
-        profitValHeader: "Рублей на 1 руб:",
-        minProfitHeader: "Хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль, если товар дешевле:",
-        minProfit: 0.6,
-        maxProfitHeader: "Хочу зарабатывать дополнительно, рублей, на вложенный 1 рубль, если товар дороже:",
-        maxProfit: 0.2,
-        limitSumHeader: "Граница дорогого товара:",
+        profitValHeader: "Копеек на 1 руб",
+        minProfitHeader: "Хочу зарабатывать дополнительно копеек, на вложенный 1 рубль, если товар дешевле",
+        minProfit: 60,
+        maxProfitHeader: "Хочу зарабатывать дополнительно копеек, на вложенный 1 рубль, если товар дороже",
+        maxProfit: 20,
+        limitSumHeader: "Граница дорогого товара, руб",
         limitSum: 1000,
-        minClearProfitHeader: "C минимальной чистой прибылью:",
+        minClearProfitHeader: "C минимальной чистой прибылью, руб",
         minClearProfitNull: "---",
         minClearProfit: 300,
-        packRentPackerTotalHeader: "Упаковка, аренда и прочие расходы в месяц",
+        packRentPackerTotalHeader: "Упаковка, аренда и прочие расходы в месяц, руб",
         packRentPackerTotal: 4500,
         numberOfShipmentsHeader: "Количество отгрузок в месяц",
         numberOfShipments: 100,
-        packRentPacker1pcHeader: 'Расход на 1 упаковку',
+        packRentPacker1pcHeader: 'Расход на 1 упаковку, руб',
         packRentPacker1pc: 45,
 
     },
@@ -31,35 +31,35 @@ const initialState = {
         output: "Вывод",
         buy1pc: " Закупка, 1 шт",
         cell1pc: "Продажа, 1 шт",
-        marketplaceCommission : "Комиссия маркетплейса",
+        marketplaceCommission : "Комиссия маркетплейса, %",
         dep: 0,
         weight: "Вес, гр",
-        heightWidthLength: "Высота + Ширина + Длина",
-        CP: "ЧП",
+        heightWidthLength: "Высота + Ширина + Длина, см",
+        CP: "ЧП, руб",
         ROI: "ROI",
-        buyMax: "Покупка Макс. ≈",
-        cellMin: "Продажа Мин. ≈",
-        cellZero: "Продажа вноль",
-        PackRentPacker: "Упаковка, аренда, упаковщик",
-        returns: "% возвратов",
-        reject: "% брака",
+        buyMax: "Покупка Макс. ≈, руб",
+        cellMin: "Продажа Мин. ≈, руб",
+        cellZero: "Продажа вноль, руб",
+        PackRentPacker: "Упаковка, аренда, упаковщик, руб",
+        returns: "% возвратов, %",
+        reject: "% брака, %",
         rejectPrice: "Цена возврата, руб",
         fixCommission: "Ком ФИКС, руб",
         delivery: "Доставка, руб",
-        federal: "Федеральная ",
+        federal: "Федеральная, руб",
         acceptance: "Приемка отправления, руб",
         magistral: "Магистраль, КГ х",
-        lastMile: "Последняя миля",
-        dkYm: "% ДК УМ",
-        pt: "% ПТ",
-        adv: "Реклама, %",
-        deliveryComission: "Комиссия Дост МП",
-        processing: "Обработка",
-        commissionTotal: "Комиссия МП Итог",
-        tax: "Налог, 7%",
-        tax1per: "Налог, 1%",
-        costsWithoutPurchase: "Косты без закупа",
-        profit: "Прибыль "
+        lastMile: "Последняя миля, руб",
+        dkYm: "% ДК УМ, руб",
+        pt: "% ПТ, руб",
+        adv: "Реклама, руб",
+        deliveryComission: "Комиссия Дост МП, руб",
+        processing: "Обработка, руб",
+        commissionTotal: "Комиссия МП Итог, руб",
+        tax: "Налог, 7%, руб",
+        tax1per: "Налог, 1%, руб",
+        costsWithoutPurchase: "Косты без закупа, руб",
+        profit: "Прибыль, руб"
     },
     headerVal: {
         output: 0,
@@ -242,9 +242,9 @@ function calcParam(state, action, pref) {
     profit} = prefix;
     
     let {limitSum, minProfit, maxProfit, minClearProfit, packRentPacker1pc} = state.managerSettings,            
-            cheapGoodsRoi =  minProfit + 1,
-            expensiveGoodsRoi = maxProfit + 1;
-
+            cheapGoodsRoi =  +(minProfit/100) + 1,
+            expensiveGoodsRoi = +(maxProfit/100 + 1);
+            // console.log(cheapGoodsRoi)
         buy1pc = state.masterdata.buy1pc;
         cell1pc = state.masterdata.cell1pc;
         weight = state.masterdata.weight;
@@ -253,7 +253,7 @@ function calcParam(state, action, pref) {
         federal = (pref === 'yMarketCalc') ? ((cell1pc*0.01) >= 100 ? 100 : (cell1pc*0.01) > 10 ? cell1pc*0.01 : 10) :
                   prefix.federal;
         // packRentPacker1pc = (+state.managerSettings.packRentPacker/ +state.managerSettings.numberOfShipments).toFixed(2);
-        packRentPacker = +(+state.managerSettings.packRentPackerTotal / +state.managerSettings.numberOfShipments).toFixed(2);
+        packRentPacker = +(+state.managerSettings.packRentPackerTotal / +state.managerSettings.numberOfShipments).toFixed(0);
         magistral = (pref === 'ozoneCalc') ? (state.headerVal.magistral*(weight/1000) < 5 ? 5 : state.headerVal.magistral*(weight/1000) > 500 ? 500 : state.headerVal.magistral*(weight/1000)) :
                     prefix.magistral;                    
         lastMile = (pref === 'ozoneCalc') ? ((cell1pc*0.044 <= 50) ? 50 : (cell1pc*0.044 < 200) ? cell1pc*0.044 : 200) :
@@ -285,11 +285,11 @@ function calcParam(state, action, pref) {
         roi = (cp + buy1pc) / buy1pc;
         // state.masterdata.cell1pc = +cellMin.toFixed()
 
-    const newState =  {
+    let newState =  {
         ...state[pref],
 
             CP: cp,
-            ROI: roi,
+            // ROI: roi,
             buyMax: buyMax,
             cellMin: cellMin,
             cellZero: cellZero,
@@ -317,8 +317,14 @@ function calcParam(state, action, pref) {
     }
     for (let key in newState){
         if (typeof(newState[key]) === 'number'){
-            newState[key] = +newState[key].toFixed(2)
+            
+            newState[key] = +newState[key].toFixed(0)
         }
+    }
+
+    newState = {
+        ...newState,
+        ROI: roi.toFixed(2)
     }
     return newState
 }
@@ -342,7 +348,7 @@ const reducer = (state = initialState, action) => {
                 },
                 managerSettings:{
                     ...state.managerSettings,
-                    packRentPacker1pc: (+state.managerSettings.packRentPackerTotal / +state.managerSettings.numberOfShipments).toFixed(2)
+                    packRentPacker1pc: +(+state.managerSettings.packRentPackerTotal / +state.managerSettings.numberOfShipments).toFixed(0)
                 },
                 ozoneCalc,
                 wbCalc,
