@@ -40,11 +40,13 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
         input = 
         <input
         type='number'
-        // value={value}
+        value={value}
         placeholder={value}
         id={id}
         className={classNames}
-        onInput={addVal}
+        onChange={addVal}
+        onInput={(e) => {
+            if(e.target.value < 0) e.target.value=0}}
         prefix={prefix}
         />
     }
