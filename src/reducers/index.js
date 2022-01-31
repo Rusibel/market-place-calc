@@ -1,5 +1,3 @@
-// import React from "react";
-
 const initialState = {
     masterdata: {
         heightWidthLength: false,
@@ -209,12 +207,11 @@ function calcParam(state, action, pref) {
     if(action.param === 'buy1pc' || action.param === 'cell1pc'){
         state.masterdata[action.param] = +action.payload}
 
-    let {output,
+    let {
     buy1pc,
     cell1pc,
     marketplaceCommission,
     weight,
-    heightWidthLength,
     CP: cp,
     ROI: roi,
     buyMax,
@@ -241,7 +238,7 @@ function calcParam(state, action, pref) {
     costsWithoutPurchase,
     profit} = prefix;
     
-    let {limitSum, minProfit, maxProfit, minClearProfit, packRentPacker1pc} = state.managerSettings,            
+    let {limitSum, minProfit, maxProfit, minClearProfit} = state.managerSettings,            
             cheapGoodsRoi =  +(minProfit/100) + 1,
             expensiveGoodsRoi = +(maxProfit/100 + 1);
             // console.log(cheapGoodsRoi)
@@ -252,7 +249,6 @@ function calcParam(state, action, pref) {
                     prefix.delivery;
         federal = (pref === 'yMarketCalc') ? ((cell1pc*0.01) >= 100 ? 100 : (cell1pc*0.01) > 10 ? cell1pc*0.01 : 10) :
                   prefix.federal;
-        // packRentPacker1pc = (+state.managerSettings.packRentPacker/ +state.managerSettings.numberOfShipments).toFixed(2);
         packRentPacker = +(+state.managerSettings.packRentPackerTotal / +state.managerSettings.numberOfShipments).toFixed(0);
         magistral = (pref === 'ozoneCalc') ? (state.headerVal.magistral*(weight/1000) < 5 ? 5 : state.headerVal.magistral*(weight/1000) > 500 ? 500 : state.headerVal.magistral*(weight/1000)) :
                     prefix.magistral;                    
@@ -283,13 +279,11 @@ function calcParam(state, action, pref) {
         profit = cell1pc - buy1pc - costsWithoutPurchase;
         cp = profit;
         roi = (cp + buy1pc) / buy1pc;
-        // state.masterdata.cell1pc = +cellMin.toFixed()
+
 
     let newState =  {
         ...state[pref],
-
             CP: cp,
-            // ROI: roi,
             buyMax: buyMax,
             cellMin: cellMin,
             cellZero: cellZero,
@@ -316,8 +310,7 @@ function calcParam(state, action, pref) {
 
     }
     for (let key in newState){
-        if (typeof(newState[key]) === 'number'){
-            
+        if (typeof(newState[key]) === 'number'){            
             newState[key] = +newState[key].toFixed(0)
         }
     }
@@ -335,7 +328,6 @@ const reducer = (state = initialState, action) => {
         case 'ADD_VAL':
             const prefix = state[action.prefix];
             prefix[action.param] = +action.payload;
-            // const packRentPacker1pc = (+state.managerSettings.packRentPackerTotal / +state.managerSettings.numberOfShipments).toFixed(2)
             const ozoneCalc = calcParam(state, action, 'ozoneCalc'),
                   wbCalc = calcParam(state, action, 'wbCalc'),
                   yMarketCalc = calcParam(state, action, 'yMarketCalc');
@@ -370,8 +362,7 @@ const reducer = (state = initialState, action) => {
                     ...state[action.prefix],
                     output: `Срочно выкладываем на ${marketplaceName}!`,
                     outputCell: true     
-                },
-               
+                },               
             }
             case 'ADD_VAL_OUTPUT_UNSUCCESS': 
             const marketplaceNamess = (action.prefix === 'ozoneCalc') ? 'Озон' : (action.prefix === 'wbCalc') ? 'WB' : ' Я.Маркет'
@@ -381,8 +372,7 @@ const reducer = (state = initialState, action) => {
                     ...state[action.prefix],
                     output: `На ${marketplaceNamess} не продаем, ищем дальше!`,
                     outputCell: false                         
-                },
-               
+                },               
             }
                     
         default:

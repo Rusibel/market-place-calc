@@ -1,28 +1,13 @@
 h1 {
-    // text-align: center;
     font-weight: 700;
     font-size: medium;
 }
 
 .table {
-    // float: left;
     width: 70%;
     margin-left: 20%;
     padding: 20px;
-    // display: grid;
-    // grid-template-columns: 2fr 0.5fr 1fr 1fr 1fr;
-    // grid-template-rows: repeat(31, 50px);
-    // background-color: blue;3
-    // &__header{
-    //     background-color:#D9D9D9; 
-    //     font-weight: 700;
-    // }
-    // :nth-of-type(1){
-    //     width: 50px;
-    // }
-    // & .link_
     & table {
-        // margin: auto;
         width: 100%;
         margin-bottom: 70px;
         border-spacing: 0px;
@@ -31,30 +16,14 @@ h1 {
     & td {
         border-bottom: 2px solid rgba(73, 73, 73, 0.233);
         padding: 5px;
-        // font-size: x-large;
         text-align: center;
         &:nth-of-type(1){
             width: 30%;
         }
-        // &:nth-of-type(2){
-        //     width: 50px;
-        // }
     }
     & .table__header{
-        // background-color:#D9D9D9; 
         font-weight: 700;
         height: 50px;
-        // padding-bottom: 30px;
     }
 }
-// .table_form2 {
-//     float: left;
-//     width: 70%;
-//     padding: 20px;
-//     display: grid;
-//     grid-template-rows: 2fr 0.5fr 1fr 1fr 1fr;
-//     grid-template-columns: repeat(31, 100px );
-//     // grid-template-rows: repeat(31, 50px);
-//     // background-color: blue;
-// }
 

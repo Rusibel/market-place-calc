@@ -1,5 +1,5 @@
 import React from "react";
-import {useSelector, shallowEqual} from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import TableRow from "../table-row/table-row";
 import './price-recomendation.scss'
 
@@ -8,7 +8,6 @@ function PriceRecomendation ({filterState}) {
     const state = useSelector(state => state, shallowEqual)
 
     const filteredState = filterState(state, "output", "CP", "ROI", "buyMax", "cellMin", "cellZero")
-    // const inputs = ["buy1pc", "cell1pc", "marketplaceCommission", "weight", "heightWidthLength"];
     
     const header = <TableRow classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
     const ozone = <TableRow classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={[]}/>
@@ -18,9 +17,7 @@ function PriceRecomendation ({filterState}) {
     return (
         <div className="table__form__price">
             <h1>Рекомендации по цене</h1>
-            <table>
-              
-
+            <table>           
                 <thead className="table__header">
                     {header}
                 </thead>
@@ -31,9 +28,7 @@ function PriceRecomendation ({filterState}) {
                 </tbody>                             
             </table>
         </div>
-
     )
 }
-
 
 export default PriceRecomendation;

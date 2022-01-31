@@ -10,11 +10,6 @@ function addInputsValMasterdata ({e, param='', prefix=''}) {
     return { type: 'ADD_VAL_MASTERDATA' };
 }
 
-// function inputsValidate (e) {
-//     const value = e.target.value.replace(/\D|-/ig, '');
-// }
-
-
 export default function Input ({value, id, classNames, checkbox, prefix, param, rub=''}) {
     const state = useSelector(state => state, shallowEqual)
 
@@ -23,7 +18,6 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
     const [addValMasterdataActionDispatch] = useActions([addInputsValMasterdata]);
     const addValMasterdata = useCallback((e) => addValMasterdataActionDispatch({e, param: param, prefix: prefix}), [addValActionDispatch]);
     classNames =  'input ' + classNames
-    // const label = label ? <label htmlFor={param}>{label}</label> : ""
     let input;
     if (checkbox){
         input = <input
@@ -34,7 +28,6 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
         prefix={prefix}
         checked={state.masterdata.heightWidthLength}
         onChange={addValMasterdata}
-        // onInput={inputsValidate}
         />
     } else {
         input = 
@@ -49,11 +42,7 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
             if(e.target.value < 0) e.target.value=0}}
         prefix={prefix}
         />
-    }
-    
-
-
-
+    }    
     return (
         <>
             {input}

@@ -1,8 +1,6 @@
 import React from "react";
-import {useSelector, shallowEqual} from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import TableRow from "../table-row/table-row";
-import Row from "../row/row";
-import {connect} from 'react-redux';
 import './marketplace-comission.scss'
 
 function MarketplaceComission ({filterState}) {
@@ -38,9 +36,4 @@ function MarketplaceComission ({filterState}) {
     )
 }
 
-const mapStateToProps = (state) => {
-    return  {state}
-    
-};
-
-export default connect(mapStateToProps)(MarketplaceComission);
+export default MarketplaceComission;

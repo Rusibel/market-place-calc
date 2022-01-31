@@ -1,5 +1,4 @@
 import React from "react";
-// import {useSelector, shallowEqual} from 'react-redux';
 import ProductCriteria from "../product-criteria/product-criteria";
 import PriceRecomendation from "../price-recomendation/price-recomendation";
 import ReturnsDefective from "../returns-defective/returns-defective";

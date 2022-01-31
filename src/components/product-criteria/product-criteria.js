@@ -1,15 +1,12 @@
-import React, { useEffect }  from "react";
+import React from "react";
 import { useSelector, shallowEqual } from 'react-redux';
-import { useActions } from '../../hooks/useActions';
 import TableRow from "../table-row/table-row";
-import LinkBlock from "../link-block/link-block";
 import './product-criteria.scss'
 
 
 
 function ProductCriteria ({filterState}) {
     const state = useSelector(state => state, shallowEqual);
-    // console.log(filterState)
     const headerFilteredState = filterState(state, "output", "buy1pc", "cell1pc", "marketplaceCommission", "weight", "heightWidthLength")
     const firstRowFilteredState = filterState(state, "output", "buy1pc", "cell1pc", "marketplaceCommission", "dep", "weight", "heightWidthLength")
     const secondRowFilteredState = filterState(state, "output", "marketplaceCommission", "dep", "heightWidthLength")
@@ -22,9 +19,9 @@ function ProductCriteria ({filterState}) {
     const ozone = <TableRow classNames="" data={firstRowFilteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={inputs} select={select}/>
     const wb = <TableRow classNames="" data={secondRowFilteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={inputs} select={select}/>
     const yMarket = <TableRow classNames="" data={thirdRowFilteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={inputs} select={select}  />
-    console.log(state);
+
     return (
-//        
+
         <div className="table__form__product-criteria">
             <h1>Критерии товара</h1>
             <table >
@@ -35,10 +32,8 @@ function ProductCriteria ({filterState}) {
                     {ozone}
                     {wb}
                     {yMarket}
-                </tbody>             
-                
+                </tbody>
             </table>
-            {/* <LinkBlock/> */}
         </div>
     )
     

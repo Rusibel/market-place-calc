@@ -1,5 +1,4 @@
 import React from "react";
-import Row from "../row/row";
 import TableRow from "../table-row/table-row";
 import {useSelector, shallowEqual} from 'react-redux';
 import './returns-defective.scss'
@@ -8,12 +7,11 @@ function ReturnsDefective ({filterState}) {
     const state = useSelector(state => state, shallowEqual)
 
     const filteredState = filterState(state, "output", "PackRentPacker", "returns", "reject", "rejectPrice")
-    // const inputs = ["PackRentPacker", "returns", "reject"];
+
     const select = ["returns", "reject"];
 
     const header = <TableRow classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
     const headerVal = <TableRow classNames="table__header" data={filteredState.headerVal}  prefix='headerVal' filterState={filterState} select={select} inputs={[]}/>
-    // const emptyRow = <TableRow classNames="" data={{}}  prefix='' filterState={''} inputs={[]}/>
     const ozone = <TableRow classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={[]}/>
     const wb = <TableRow classNames="" data={filteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={[]}/>
     const yMarket = <TableRow classNames="" data={filteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={[]}/>
@@ -25,21 +23,15 @@ function ReturnsDefective ({filterState}) {
                 <thead className="table__header">
                     {header}
                     {headerVal}
-                    {/* {emptyRow} */}
                 </thead>
-                <tbody>
-                    
+                <tbody>                   
                     {ozone}
                     {wb}
                     {yMarket}
-                </tbody>        
-            
+                </tbody>   
             </table>
         </div>
-    )
-    
+    )    
 }
-
-
 
 export default ReturnsDefective;

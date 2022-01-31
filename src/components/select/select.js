@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { useActions } from '../../hooks/useActions';
-import {useSelector, shallowEqual} from 'react-redux';
-import {addInputsVal, addInputsValMasterdata} from '../actions/actions';
-// import './input.scss';
+import { useSelector, shallowEqual } from 'react-redux';
+import { addInputsVal } from '../actions/actions';
+
 
 export default function Select ({id, classNames, prefix, param}) {
     const state = useSelector(state => state, shallowEqual);
@@ -18,16 +18,11 @@ export default function Select ({id, classNames, prefix, param}) {
         }
 
         const options = opt.map((number) => 
-            <option value={number} key={number + prefix + param}>{number}%</option>
-        )
-        // console.log(options)
+            <option value={number} key={number + prefix + param}>{number}%</option>)
         return options
     }
 
-    // console.log(optionsOfSelect())
-
     let select = <select
-        // type='checkbox'
         value={state[prefix][param]}
         id={id}
         className={classNames}
@@ -35,10 +30,6 @@ export default function Select ({id, classNames, prefix, param}) {
         onChange={addVal}>
              {optionsOfSelect()} 
         </select>
-    
-    // classNames =  'input ' + classNames
-
-
 
     return (
         <>

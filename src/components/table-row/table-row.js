@@ -4,9 +4,7 @@ import { useActions } from '../../hooks/useActions';
 import Cell from "../cell/cell";
 import Input from '../input/input'
 import Select from '../select/select'
-import Link from '../links/links'
 import './table-row.scss'
-// import store from "../../store";
 
 export default function TableRow ({data, classNames, prefix, inputs, select = []}) {
 
@@ -17,15 +15,12 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         if(state[prefix].profit > 0){
             if(state.masterdata.cell1pc <= state.managerSettings.limitSum){
                 if(state[prefix].ROI >= (+state.managerSettings.minProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
-                    // rowClassnames = 'table__row__green'
                     return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix};
-                    // console.log('success')
                 } else { 
                 return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix};}
             } else {
                 if(state[prefix].CP >= state.managerSettings.minProfit){
                     if(state[prefix].ROI >= (+state.managerSettings.maxProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
-            
                         return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix };
                     } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix,} }
                 } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix}}
@@ -37,12 +32,12 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
     const [calcOutputValDispatch] = useActions([calcOutputVal]);
     const outputVal = useCallback((e) => calcOutputValDispatch({e, prefix: prefix}), [calcOutputValDispatch]);
 
-
-    useEffect(() => {
+    useEffect((e) => {
         if( prefix !== 'header' && prefix !== 'headerVal'){
-            outputVal();
+            outputVal(e, prefix);
         }
-    }, [state[prefix].CP, state[prefix].ROI, state.managerSettings.maxProfit, state.managerSettings.minProfit, state.managerSettings.limitSum, state.managerSettings.minClearProfit, state.managerSettings.packRentPacker1pc] );
+    }, [state[prefix].CP, state[prefix].ROI, state.managerSettings.maxProfit, state.managerSettings.minProfit, state.managerSettings.limitSum, 
+        state.managerSettings.minClearProfit, state.managerSettings.packRentPacker1pc]); //Работает - don't touch
 
     const row = Object.entries(data).map((item) => {
 
@@ -84,20 +79,6 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 </td>
             )        
         }else
-        // if ((item[0] === 'dep' && prefix !== 'header')){
-        //     let url = prefix === 'ozoneCalc' ? 'https://calculator.ozon.ru' : prefix === 'wbCalc' ? 'https://seller.wildberries.ru/dynamic-product-categories' : "https://yandex.ru/legal/marketplace_services_rate_table/"
-        //     return (
-        //         <td key={item[0]+prefix} className={tdClassNames} >
-        //             <Link
-        //             classNames={''}
-        //             key={item[0]+prefix} 
-        //             value={item[1]}
-        //             id={item[0]+'__'+prefix}
-        //             prefix={prefix}
-        //             url={url}/>
-        //         </td>
-        //     )        
-        // }else
         if ((item[0] === 'limitSum' || item[0] === 'packRentPackerTotal' || item[0] === 'numberOfShipments')  && prefix === 'managerSettings'){
             return (
                 <td rowSpan={2} key={item[0]+prefix} className={tdClassNames} >
@@ -167,10 +148,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                     param={item[0]}/>
                 </td>
             )
-        }
-        
-      
-        {
+        } else{
             return (
                 <td key={item[0]+prefix} className={tdClassNames} >
                     <Cell
@@ -183,7 +161,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
             )
         }
     })
-    // console.log(inputs.includes('dep'))
+
     return (
         <tr className='table__row'>
             {row}
