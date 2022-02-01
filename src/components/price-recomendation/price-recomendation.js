@@ -7,7 +7,8 @@ function PriceRecomendation ({filterState}) {
     
     const state = useSelector(state => state, shallowEqual)
 
-    const filteredState = filterState(state, "output", "CP", "ROI", "buyMax", "cellMin", "cellZero")
+    const filteredState = filterState(state, "CP", "ROI", "buyMax", "cellMin", "cellZero", "rejectPrice", "fixCommission", "delivery", "federal", "acceptance", 
+    "magistral", "lastMile", "dkYm", "pt", 'adv', "deliveryComission", "processing", "commissionTotal", "tax", "tax1per", "costsWithoutPurchase", "profit")
     
     const header = <TableRow classNames="table__header" data={filteredState.header}  prefix='header' filterState={filterState} inputs={[]}/>
     const ozone = <TableRow classNames="" data={filteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={[]}/>
@@ -15,8 +16,8 @@ function PriceRecomendation ({filterState}) {
     const yMarket = <TableRow classNames="" data={filteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={[]}/>
 
     return (
-        <div className="table__form__price">
-            <h1>Рекомендации по цене</h1>
+        <div className="table__calc__result">
+            <h1>Результаты расчетов</h1>
             <table>           
                 <thead className="table__header">
                     {header}

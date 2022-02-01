@@ -1,3 +1,14 @@
-// .manager-settings {
-
-// }
+.manager__settings {
+    margin-top: 0;
+    // background-color: aqua;
+    & table {
+        &:nth-of-type(1){
+            margin-bottom: 0;
+            // background-color: aqua;
+        }
+    }
+    // & :nth-child(2){
+    //     background-color: aqua;
+    //     margin-top: 0;
+    // }
+}

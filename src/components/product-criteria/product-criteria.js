@@ -7,10 +7,10 @@ import './product-criteria.scss'
 
 function ProductCriteria ({filterState}) {
     const state = useSelector(state => state, shallowEqual);
-    const headerFilteredState = filterState(state, "output", "buy1pc", "cell1pc", "marketplaceCommission", "weight", "heightWidthLength")
-    const firstRowFilteredState = filterState(state, "output", "buy1pc", "cell1pc", "marketplaceCommission", "dep", "weight", "heightWidthLength")
-    const secondRowFilteredState = filterState(state, "output", "marketplaceCommission", "dep", "heightWidthLength")
-    const thirdRowFilteredState = filterState(state, "output", "marketplaceCommission", "dep")
+    const headerFilteredState = filterState(state, "buy1pc", "cell1pc", "marketplaceCommission", "weight", "heightWidthLength", "output")
+    const firstRowFilteredState = filterState(state, "buy1pc", "cell1pc", "marketplaceCommission", "dep", "weight", "heightWidthLength", "output")
+    const secondRowFilteredState = filterState(state, "marketplaceCommission", "dep", "heightWidthLength", "output")
+    const thirdRowFilteredState = filterState(state, "marketplaceCommission", "dep", "output")
 
     const inputs = ["buy1pc", "cell1pc", "marketplaceCommission", "weight"];
     const select = ["marketplaceCommission"];
@@ -22,7 +22,7 @@ function ProductCriteria ({filterState}) {
 
     return (
 
-        <div className="table__form__product-criteria">
+        <div className="table__product-criteria">
             <h1>Критерии товара</h1>
             <table >
                  <thead className="table__header">

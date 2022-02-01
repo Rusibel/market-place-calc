@@ -1,0 +1,25 @@
+.table__calc__result {
+    & .table__header{
+        font-weight: 700;
+        height: 100px;
+        & td {
+            border-right: 2px solid rgba(73, 73, 73, 0.233);
+        };
+        & .cell {        
+            writing-mode: tb-rl;
+            height: 100px;
+            text-align: center;
+            margin: auto;
+        }
+    }
+    & td {
+        border-bottom: 2px solid rgba(73, 73, 73, 0.233);
+        border-right: 2px solid rgba(73, 73, 73, 0.233);
+        padding: 5px;
+        text-align: center;
+        width: 5%;
+        // &:nth-of-type(7){
+        //     width: 5%;
+        // }
+    }
+}

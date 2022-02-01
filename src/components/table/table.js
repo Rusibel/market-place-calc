@@ -18,9 +18,9 @@ function Table () {
             <ManagerSettings filterState={filterState}/>
             <ProductCriteria filterState={filterState}/>
             <PriceRecomendation filterState={filterState}/>
-            <ReturnsDefective filterState={filterState}/>
+            {/* <ReturnsDefective filterState={filterState}/>
             <MarketplaceComission filterState={filterState}/>
-            <AdvTotal filterState={filterState}/>     
+            <AdvTotal filterState={filterState}/>      */}
         </div>
     )
 }

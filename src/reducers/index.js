@@ -26,7 +26,7 @@ const initialState = {
 
     },
     header: {
-        output: "Вывод",
+        
         buy1pc: " Закупка, 1 шт",
         cell1pc: "Продажа, 1 шт",
         marketplaceCommission : "Комиссия маркетплейса, %",
@@ -35,28 +35,29 @@ const initialState = {
         heightWidthLength: "Высота + Ширина + Длина, см",
         CP: "ЧП, руб",
         ROI: "ROI",
-        buyMax: "Покупка Макс. ≈, руб",
-        cellMin: "Продажа Мин. ≈, руб",
+        buyMax: "Максимальная цена закупки, руб",
+        cellMin: "Минимальная цена продажи, руб",
         cellZero: "Продажа вноль, руб",
         PackRentPacker: "Упаковка, аренда, упаковщик, руб",
+        output: "Вывод",
         returns: "% возвратов, %",
         reject: "% брака, %",
         rejectPrice: "Цена возврата, руб",
-        fixCommission: "Ком ФИКС, руб",
+        fixCommission: "Фиксированная комиссия, руб",
         delivery: "Доставка, руб",
         federal: "Федеральная, руб",
         acceptance: "Приемка отправления, руб",
         magistral: "Магистраль, КГ х",
         lastMile: "Последняя миля, руб",
-        dkYm: "% ДК УМ, руб",
-        pt: "% ПТ, руб",
+        dkYm: "Зарплата менеджера кабинета, руб",
+        pt: "Зарплата подборщика товаров, руб",
         adv: "Реклама, руб",
-        deliveryComission: "Комиссия Дост МП, руб",
+        deliveryComission: "Комиссия доставки МП, руб",
         processing: "Обработка, руб",
         commissionTotal: "Комиссия МП Итог, руб",
-        tax: "Налог, 7%, руб",
-        tax1per: "Налог, 1%, руб",
-        costsWithoutPurchase: "Косты без закупа, руб",
+        tax: "Налог 7%, руб",
+        tax1per: "Вывод средств 1%, руб",
+        costsWithoutPurchase: "Косты без закупки, руб",
         profit: "Прибыль, руб"
     },
     headerVal: {
@@ -93,8 +94,7 @@ const initialState = {
         costsWithoutPurchase: 0,
         profit: 0
     },
-    ozoneCalc: {
-        output: "OZONE",
+    ozoneCalc: {        
         outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
@@ -102,6 +102,7 @@ const initialState = {
         dep: "-  зависит от категории OZON",
         weight: 100,
         heightWidthLength: "Если больше 150 см, жми ↓",
+        output: "OZONE",
         CP: 75.5,
         ROI: 1.055,
         buyMax: 1475.50,
@@ -129,7 +130,7 @@ const initialState = {
         profit: 75.42
     },
     wbCalc: {
-        output: "WB",
+        
         outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
@@ -137,6 +138,7 @@ const initialState = {
         dep: "-  зависит от продаж",
         weight: 100,
         heightWidthLength: 0,
+        output: "WB",
         CP: 316.9,
         ROI: 1.23,
         buyMax: 1716.9,
@@ -163,8 +165,7 @@ const initialState = {
         costsWithoutPurchase: 1083.1,
         profit: 316.9
     },
-    yMarketCalc: {
-        output: "YMarket",
+    yMarketCalc: {        
         outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
@@ -172,18 +173,19 @@ const initialState = {
         dep: "-  зависит от категории Маркет",
         weight: 100,
         heightWidthLength: 0,
-        CP: 316.90,
+        output: "YMarket",
+        CP: 316,
         ROI: 1.23,
-        buyMax: 1716.9,
-        cellMin: 2763.1,
-        cellZero: 2483.1,
+        buyMax: 1716,
+        cellMin: 2763,
+        cellZero: 2483,
         PackRentPacker: 45,
         returns: 10,
         reject: 3,
         rejectPrice: 329,
         fixCommission: 30,
         delivery: 112,
-        federal: 0,
+        federal: 28,
         acceptance: 0,
         magistral: 0,
         lastMile: 0,
@@ -193,9 +195,9 @@ const initialState = {
         deliveryComission: 0,
         processing: 0,
         commissionTotal: 560,
-        tax: 179.20,
+        tax: 179,
         tax1per: 55,
-        costsWithoutPurchase: 1083.1,
+        costsWithoutPurchase: 1083,
         profit: 316.90
     }
 };
@@ -207,7 +209,7 @@ function calcParam(state, action, pref) {
     if(action.param === 'buy1pc' || action.param === 'cell1pc'){
         state.masterdata[action.param] = +action.payload}
 
-    let {
+    let {output,
     buy1pc,
     cell1pc,
     marketplaceCommission,
@@ -270,16 +272,33 @@ function calcParam(state, action, pref) {
         tax1per = (cell1pc - commissionTotal)*0.01;
         costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax + tax1per;
         cellZero = buy1pc + costsWithoutPurchase;
-        cellMin = (cell1pc > state.managerSettings.limitSum) ? 
-                    Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase)) : 
-                    ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase);
-        buyMax = ((cell1pc > limitSum)) ? 
-                    Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
-                    ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
+        // cellMin = (cell1pc > state.managerSettings.limitSum) ? 
+        //             Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase)) : 
+        //             ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase);
+        // buyMax = ((cell1pc > limitSum)) ? 
+        //             Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
+        //             ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
         profit = cell1pc - buy1pc - costsWithoutPurchase;
         cp = profit;
         roi = (cp + buy1pc) / buy1pc;
+    const calcCellMin = () => {
+        if (cell1pc > limitSum) {
+            cellMin = Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase));
+            return cellMin
+        } else {
+            cellMin = (buy1pc * cheapGoodsRoi) + costsWithoutPurchase;
+            return cellMin
+            // return ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase)
+        }
+    }   
+    cellMin = calcCellMin();  
+    const calcBuyMax = () => {
+        if (cell1pc > limitSum) {
+            return Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit))
+        } else {return ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi)}
 
+    }
+    buyMax = calcBuyMax();
 
     let newState =  {
         ...state[pref],
@@ -288,6 +307,7 @@ function calcParam(state, action, pref) {
             cellMin: cellMin,
             cellZero: cellZero,
             PackRentPacker: packRentPacker,
+            // output: output,
             returns: returns,
             reject: reject,
             rejectPrice: rejectPrice,
