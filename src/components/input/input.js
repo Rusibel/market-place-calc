@@ -7,7 +7,7 @@ function addInputsVal ({e, param='', prefix=''}) {
     return { type: 'ADD_VAL', prefix: prefix, param: param, payload: e.target.value };
   }
 function addInputsValMasterdata ({e, param='', prefix=''}) {
-    return { type: 'ADD_VAL_MASTERDATA' };
+    return { type: 'ADD_VAL_MASTERDATA', prefix: prefix, param: param};
 }
 
 export default function Input ({value, id, classNames, checkbox, prefix, param, rub=''}) {
@@ -27,7 +27,10 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
         className={classNames}
         prefix={prefix}
         checked={state.masterdata.heightWidthLength}
-        onChange={addValMasterdata}
+        onChange={() => {
+            addValMasterdata();
+            // addVal()
+        }}
         />
     } else {
         input = 

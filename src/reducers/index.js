@@ -51,7 +51,7 @@ const initialState = {
         lastMile: "Последняя миля, руб",
         dkYm: "Зарплата менеджера кабинета, руб",
         pt: "Зарплата подборщика товаров, руб",
-        adv: "Реклама, руб",
+        adv: "Реклама, % от продажи",
         deliveryComission: "Комиссия доставки МП, руб",
         processing: "Обработка, руб",
         commissionTotal: "Комиссия МП Итог, руб",
@@ -103,15 +103,15 @@ const initialState = {
         weight: 100,
         heightWidthLength: "Если больше 150 см, жми ↓",
         output: "OZONE",
-        CP: 75.5,
+        CP: 75,
         ROI: 1.055,
-        buyMax: 1475.50,
-        cellMin: 3004.58,
-        cellZero: 2724.58,
+        buyMax: 1475,
+        cellMin: 3004,
+        cellZero: 2724,
         PackRentPacker: 45,
         returns: 10,
         reject: 3,
-        rejectPrice: 758.4,
+        rejectPrice: 758,
         fixCommission: 0,
         delivery: 0,
         federal: 0,
@@ -121,29 +121,29 @@ const initialState = {
         dkYm: 140,
         pt: 84,
         adv: 168,
-        deliveryComission: 173.2,
+        deliveryComission: 173,
         processing: 0,
-        commissionTotal: 593.2,
-        tax: 176.55,
+        commissionTotal: 593,
+        tax: 176,
         tax1per: 55,
-        costsWithoutPurchase: 1324.59,
-        profit: 75.42
+        costsWithoutPurchase: 1324,
+        profit: 75
     },
     wbCalc: {
         
         outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
-        marketplaceCommission : 20,
+        marketplaceCommission : 3,
         dep: "-  зависит от продаж",
         weight: 100,
         heightWidthLength: 0,
         output: "WB",
-        CP: 316.9,
+        CP: 316,
         ROI: 1.23,
-        buyMax: 1716.9,
-        cellMin: 2763.1,
-        cellZero: 2483.1,
+        buyMax: 1716,
+        cellMin: 2763,
+        cellZero: 2483,
         PackRentPacker: 45,
         returns: 10,
         reject: 3,
@@ -160,10 +160,10 @@ const initialState = {
         deliveryComission: 0,
         processing: 0,
         commissionTotal: 560,
-        tax: 179.20,
+        tax: 179,
         tax1per: 55,
-        costsWithoutPurchase: 1083.1,
-        profit: 316.9
+        costsWithoutPurchase: 1083,
+        profit: 316
     },
     yMarketCalc: {        
         outputCell: true,
@@ -209,6 +209,7 @@ function calcParam(state, action, pref) {
     if(action.param === 'buy1pc' || action.param === 'cell1pc'){
         state.masterdata[action.param] = +action.payload}
 
+
     let {output,
     buy1pc,
     cell1pc,
@@ -246,7 +247,8 @@ function calcParam(state, action, pref) {
             // console.log(cheapGoodsRoi)
         buy1pc = state.masterdata.buy1pc;
         cell1pc = state.masterdata.cell1pc;
-        weight = state.masterdata.weight;
+        state.masterdata.weight = state.ozoneCalc.weight;
+        weight = state.ozoneCalc.weight;
         delivery = (pref === 'yMarketCalc') ? (state.masterdata.heightWidthLength ? 250 : (weight/1000 >= 15) ? 350 : (cell1pc*0.04 < 55) ? 55 : (cell1pc*0.04 > 200) ? 200 : cell1pc*0.04) :
                     prefix.delivery;
         federal = (pref === 'yMarketCalc') ? ((cell1pc*0.01) >= 100 ? 100 : (cell1pc*0.01) > 10 ? cell1pc*0.01 : 10) :
@@ -337,7 +339,7 @@ function calcParam(state, action, pref) {
 
     newState = {
         ...newState,
-        ROI: roi.toFixed(2)
+        ROI: +roi.toFixed(2)
     }
     return newState
 }
@@ -367,12 +369,23 @@ const reducer = (state = initialState, action) => {
                 yMarketCalc
             }
             case 'ADD_VAL_MASTERDATA': 
+                state.masterdata.heightWidthLength = !state.masterdata.heightWidthLength
                 return {
                     ...state,
-                        masterdata: {
-                            ...state.masterdata,
-                            heightWidthLength: !state.masterdata.heightWidthLength
+                        // masterdata: {
+                        //     ...state.masterdata,
+                        //     heightWidthLength: !state.masterdata.heightWidthLength
+                        // },
+                        ozoneCalc : {
+                            ...calcParam(state, action, 'ozoneCalc')
+                        },
+                        wbCalc: {
+                            ...calcParam(state, action, 'wbCalc'),
+                        },
+                        yMarketCalc: {
+                            ...calcParam(state, action, 'yMarketCalc')
                         }
+                        
             }
             case 'ADD_VAL_OUTPUT_SUCCESS': 
             const marketplaceName = (action.prefix === 'ozoneCalc') ? 'Озон' : (action.prefix === 'wbCalc') ? 'WB' : ' Я.Маркет'

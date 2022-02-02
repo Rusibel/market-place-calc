@@ -43,7 +43,7 @@ export default function ManagerSettings ({filterState}) {
                 </tbody>           
             
             </table>
-            <table classNames="manager__settings__table__selects">
+            <table className="manager__settings__table__selects">
                  <thead className="table__header">
                     {thirdRow}      
                 </thead>
