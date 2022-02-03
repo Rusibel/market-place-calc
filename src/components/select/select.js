@@ -13,8 +13,10 @@ export default function Select ({id, classNames, prefix, param}) {
     const optionsOfSelect = () => {
         const opt = [];
 
-        for (let i = 0; i <= 100; i++){
+        for (let i = 0; i < 100; i++){
             opt.push(i)
+            opt.push(i + 0.5);
+            
         }
 
         const options = opt.map((number) => 

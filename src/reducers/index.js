@@ -57,7 +57,7 @@ const initialState = {
         commissionTotal: "Комиссия МП Итог, руб",
         tax: "Налог 7%, руб",
         tax1per: "Вывод средств 1%, руб",
-        costsWithoutPurchase: "Косты без закупки, руб",
+        costsWithoutPurchase: "Расходы без закупки, руб",
         profit: "Прибыль, руб"
     },
     headerVal: {
@@ -103,8 +103,8 @@ const initialState = {
         weight: 100,
         heightWidthLength: "Если больше 150 см, жми ↓",
         output: "OZONE",
-        CP: 75,
-        ROI: 1.055,
+        CP: 229,
+        ROI: 1.16,
         buyMax: 1475,
         cellMin: 3004,
         cellZero: 2724,
@@ -127,7 +127,7 @@ const initialState = {
         tax: 176,
         tax1per: 55,
         costsWithoutPurchase: 1324,
-        profit: 75
+        profit: 229
     },
     wbCalc: {
         
@@ -139,8 +139,8 @@ const initialState = {
         weight: 100,
         heightWidthLength: 0,
         output: "WB",
-        CP: 316,
-        ROI: 1.23,
+        CP: 724,
+        ROI: 1.52,
         buyMax: 1716,
         cellMin: 2763,
         cellZero: 2483,
@@ -163,7 +163,7 @@ const initialState = {
         tax: 179,
         tax1per: 55,
         costsWithoutPurchase: 1083,
-        profit: 316
+        profit: 724
     },
     yMarketCalc: {        
         outputCell: true,
@@ -174,8 +174,8 @@ const initialState = {
         weight: 100,
         heightWidthLength: 0,
         output: "YMarket",
-        CP: 316,
-        ROI: 1.23,
+        CP: 445,
+        ROI: 1.32,
         buyMax: 1716,
         cellMin: 2763,
         cellZero: 2483,
@@ -198,7 +198,7 @@ const initialState = {
         tax: 179,
         tax1per: 55,
         costsWithoutPurchase: 1083,
-        profit: 316.90
+        profit: 445
     }
 };
 
