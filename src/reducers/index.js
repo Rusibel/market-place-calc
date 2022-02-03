@@ -15,7 +15,7 @@ const initialState = {
         limitSumHeader: "Граница дорогого товара, руб",
         limitSum: 1000,
         minClearProfitHeader: "C минимальной чистой прибылью, руб",
-        minClearProfitNull: "---",
+        minClearProfitNull: "",
         minClearProfit: 300,
         packRentPackerTotalHeader: "Упаковка, аренда и прочие расходы в месяц, руб",
         packRentPackerTotal: 4500,
