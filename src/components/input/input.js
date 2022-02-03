@@ -4,13 +4,13 @@ import {useSelector, shallowEqual} from 'react-redux';
 import './input.scss';
 
 function addInputsVal ({e, param='', prefix=''}) {
-    return { type: 'ADD_VAL', prefix: prefix, param: param, payload: e.target.value * 1};
+    return { type: 'ADD_VAL', prefix: prefix, param: param, payload: +e.target.value.replace(/\s/g, '')};
   }
 function addInputsValMasterdata ({e, param='', prefix=''}) {
     return { type: 'ADD_VAL_MASTERDATA', prefix: prefix, param: param};
 }
 
-export default function Input ({value, id, classNames, checkbox, prefix, param, rub=''}) {
+export default function Input ({value, id, classNames, checkbox, prefix, param, type='number', input}) {
     const state = useSelector(state => state, shallowEqual)
 
     const [addValActionDispatch] = useActions([addInputsVal]);
@@ -18,9 +18,9 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
     const [addValMasterdataActionDispatch] = useActions([addInputsValMasterdata]);
     const addValMasterdata = useCallback((e) => addValMasterdataActionDispatch({e, param: param, prefix: prefix}), [addValActionDispatch]);
     classNames =  'input ' + classNames
-    let input;
+    let inputCell;
     if (checkbox){
-        input = <input
+        inputCell = <input
         type='checkbox'
         placeholder={value}
         id={id}
@@ -33,43 +33,89 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
         }}
         />
     } else {
-        let type = 'text'
-        // value = type === 'text' ? value.toLocaleString() : value
-        console.log(type)
-        input = 
+        inputCell = !input ?
         <input 
-        onBlur={(e) => {
-            e.target.type = 'text'
-            e.target.value = value.toLocaleString()
-            }
-        }
-        value={value}
-        placeholder={value}
+        type='text'
+        value={value.toLocaleString()}
+        placeholder={value.toLocaleString()}
         id={id}
         className={classNames}
         onChange={(e) => {
-            // e.target.value = +e.target.value.replace(/\s/g, '')
             addVal(e)}}
-        onFocus={(e) => {
-            e.target.type = 'number'   
-            console.log(e.target.value)
-            console.log(value)
-            value = typeof(value) === 'number' ? value : +value.replace(/\s/g, '')
-            e.target.value = value
-        }}
-        type={type}
-        // onBlur={(value) => value.toLocalestring()}
         onInput={(e) => {
-            console.log(type)
-            // if(e.target.value < 0) e.target.value=0
+        if(e.target.value < 0) e.target.value=0
             }
         }
         prefix={prefix}
-        />
+        /> : <input 
+            type='number'
+            value={value}
+            placeholder={value}
+            id={id}
+            className={classNames}
+            onChange={(e) => {
+                addVal(e)}}
+            onInput={(e) => {
+            if(e.target.value < 0) e.target.value=0
+                }
+            }
+            prefix={prefix}
+            />
+        // input = 
+        // <input 
+        // type={type}
+        // // onBlur={(e) => {
+        // //     e.target.type = 'text'
+        // //     e.target.value = value.toLocaleString()
+        // //     }
+        // // }
+        // value={value}
+        // placeholder={value}
+        // id={id}
+        // className={classNames}
+        // onChange={(e) => {
+        //     // console.log(e.target)
+        //     // console.log(value)
+        //     // value =  typeof(value) === 'number' ? value : +(value.replace(/\s/g, ''))
+        //     // console.log(value)
+        //     // // e.target.type = 'number'
+        //     // e.target.value = +value
+        //     // console.log(e.target.value)
+        //     // console.log(e.target)
+        //     // e.target.value = +e.target.value.replace(/\s/g, '')
+        //     addVal(e)}}
+        // // onFocus={(e) => {
+        // //     console.log(e.target)
+        // //     // console.log(typeof(value))
+        // //     value = typeof(e.target.value) === 'number' ? e.target.value : +e.target.value.replace(/\s/g, '')
+            
+        // //     e.target.type = 'number'   
+        // //     e.target.value = value
+        // //     console.log(e.target)
+        // //     // console.log(typeof(value))
+        // //     // console.log(e.target.value)
+        // //     // console.log(value)
+
+        // // }}
+        // onInput={(e) => {
+        //     // value = typeof(e.target.value) === 'number' ? e.target.value : +e.target.value.replace(/\s/g, '')
+        //     // e.target.type = 'number'
+        //     // e.target.value = value
+        //     // // console.log(value)
+        //     // console.log(typeof(value))
+            
+        //     // e.target.value = typeof(value) === 'number' ? value : +value.replace(/\s/g, '')
+        //     // console.log(value)
+        //     // console.log(typeof(value))
+        //     if(e.target.value < 0) e.target.value=0
+        //     }
+        // }
+        // prefix={prefix}
+        // />
     }    
     return (
         <>
-            {input}
+            {inputCell}
         </>
 
     )

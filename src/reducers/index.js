@@ -349,6 +349,7 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_VAL':
             const prefix = state[action.prefix];
+            // console.log(action.payload)
             prefix[action.param] = +action.payload;
             const ozoneCalc = calcParam(state, action, 'ozoneCalc'),
                   wbCalc = calcParam(state, action, 'wbCalc'),
