@@ -185,15 +185,23 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         if (select.includes(item[0]))
             {
             return (
-                <td key={item[0]+prefix} className={tdClassNames}>
-                    <Select
-                    classNames={''}
-                    key={item[0]+prefix} 
-                    value={item[1]}
-                    id={item[0]+'__'+prefix} 
-                    prefix={prefix}
-                    param={item[0]}/>
-                </td>
+
+                <Td 
+                item={item}
+                rowSpan={1}
+                prefix={prefix}
+                tdClassNames={tdClassNames}
+                key={item[0]+prefix}
+                step={0.5} />
+                // <td key={item[0]+prefix} className={tdClassNames}>
+                //     <Select
+                //     classNames={''}
+                //     key={item[0]+prefix} 
+                //     value={item[1]}
+                //     id={item[0]+'__'+prefix} 
+                //     prefix={prefix}
+                //     param={item[0]}/>
+                // </td>
             )
         } else
         if (inputs.includes(item[0])){

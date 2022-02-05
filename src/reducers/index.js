@@ -263,7 +263,8 @@ function calcParam(state, action, pref) {
         dkYm = +state.headerVal.dkYm * 0.01 * cell1pc;
         pt = +state.headerVal.pt * 0.01 * cell1pc;
         processing = cell1pc*0.01;
-        commissionTotal = cell1pc*marketplaceCommission*0.01 + deliveryComission;
+        commissionTotal = (pref === 'yMarketCalc') ? cell1pc*marketplaceCommission*0.01 + deliveryComission + processing : 
+                           cell1pc*marketplaceCommission*0.01 + deliveryComission;
         adv = +state.headerVal.adv*cell1pc*0.01;
         returns = state.headerVal.returns;
         reject = state.headerVal.reject;
