@@ -19,7 +19,7 @@ function ProductCriteria ({filterState}) {
     const ozone = <TableRow classNames="" data={firstRowFilteredState.ozoneCalc}  prefix='ozoneCalc' filterState={filterState} inputs={inputs} select={select}/>
     const wb = <TableRow classNames="" data={secondRowFilteredState.wbCalc}  prefix='wbCalc' filterState={filterState} inputs={inputs} select={select}/>
     const yMarket = <TableRow classNames="" data={thirdRowFilteredState.yMarketCalc}  prefix='yMarketCalc' filterState={filterState} inputs={inputs} select={select}  />
-    console.log(JSON.stringify(state))
+    // console.log(JSON.stringify(state))
     return (
 
         <div className="table__product__criteria">

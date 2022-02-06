@@ -275,33 +275,34 @@ function calcParam(state, action, pref) {
         tax1per = (cell1pc - commissionTotal)*0.01;
         costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax + tax1per;
         cellZero = buy1pc + costsWithoutPurchase;
-        // cellMin = (cell1pc > state.managerSettings.limitSum) ? 
-        //             Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase)) : 
-        //             ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase);
-        // buyMax = ((cell1pc > limitSum)) ? 
-        //             Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
-        //             ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
+        cellMin = (cell1pc > state.managerSettings.limitSum) ? 
+                    Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase)) : 
+                    ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase);
+        buyMax = ((cell1pc > limitSum)) ? 
+                    Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
+                    ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
         profit = cell1pc - buy1pc - costsWithoutPurchase;
         cp = profit;
         roi = (cp + buy1pc) / buy1pc;
-    const calcCellMin = () => {
-        if (cell1pc > limitSum) {
-            cellMin = Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase));
-            return cellMin
-        } else {
-            cellMin = (buy1pc * cheapGoodsRoi) + costsWithoutPurchase;
-            return cellMin
-            // return ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase)
-        }
-    }   
-    cellMin = calcCellMin();  
-    const calcBuyMax = () => {
-        if (cell1pc > limitSum) {
-            return Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit))
-        } else {return ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi)}
+    // const calcCellMin = () => {
+        
+    //     if (cell1pc > limitSum) {
+    //         cellMin = Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase));
+    //         return cellMin
+    //     } else {
+    //         cellMin = (buy1pc * cheapGoodsRoi) + costsWithoutPurchase;
+    //         return cellMin
+    //         // return ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase)
+    //     }
+    // }   
+    // cellMin = calcCellMin();  
+    // const calcBuyMax = () => {
+    //     if (cell1pc > limitSum) {
+    //         return Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit))
+    //     } else {return ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi)}
 
-    }
-    buyMax = calcBuyMax();
+    // }
+    // buyMax = calcBuyMax();
 
     let newState =  {
         ...state[pref],
@@ -333,7 +334,7 @@ function calcParam(state, action, pref) {
 
     }
     for (let key in newState){
-        if (typeof(newState[key]) === 'number'){            
+        if (typeof(newState[key]) === 'number' && key !== 'marketplaceCommission'){            
             newState[key] = +newState[key].toFixed(0)
         }
     }
@@ -350,7 +351,6 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_VAL':
             const prefix = state[action.prefix];
-            // console.log(action.payload)
             prefix[action.param] = +action.payload;
             const ozoneCalc = calcParam(state, action, 'ozoneCalc'),
                   wbCalc = calcParam(state, action, 'wbCalc'),
@@ -374,10 +374,6 @@ const reducer = (state = initialState, action) => {
                 state.masterdata.heightWidthLength = !state.masterdata.heightWidthLength
                 return {
                     ...state,
-                        // masterdata: {
-                        //     ...state.masterdata,
-                        //     heightWidthLength: !state.masterdata.heightWidthLength
-                        // },
                         ozoneCalc : {
                             ...calcParam(state, action, 'ozoneCalc')
                         },

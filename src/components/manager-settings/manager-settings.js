@@ -8,12 +8,8 @@ import './manager-settings.scss';
 export default function ManagerSettings ({filterState}) {
 
     const state = useSelector(state => state, shallowEqual);
-    // console.log(filterState)
-    // const {managerSettings: {
-    //     minProfit, maxProfit, limitSum, minClearProfit, packRentPackerTotal, numberOfShipments, packRentPacker1pc}} = state;
-
+   
     const headerFilteredState = filterState(state, "profitHeader", "profitValHeader",  "limitSumHeader", "minClearProfitHeader", "packRentPackerTotalHeader", "numberOfShipmentsHeader", 'packRentPacker1pcHeader') 
-    // 'packRentPacker1pcHeader', "returns", "reject", "dkYm", "pt", 'adv'
     const firstRowFilteredState = filterState(state, "minProfitHeader", "minProfit", "limitSum", "minClearProfitNull", "packRentPackerTotal", "numberOfShipments", "packRentPacker1pc")
     const secondRowFilteredState = filterState(state, "maxProfitHeader", "maxProfit", "minClearProfit")
     const thirdFilteredState = filterState(state, 'packRentPacker1pcHeader', "returns", "reject", "dkYm", "pt", 'adv')
@@ -38,8 +34,6 @@ export default function ManagerSettings ({filterState}) {
                 <tbody>
                     {firstRow}
                     {secondRow}         
-                    {/* {thirdRow}  
-                    {foursRow}       */}
                 </tbody>           
             
             </table>

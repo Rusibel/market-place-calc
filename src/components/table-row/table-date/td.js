@@ -1,7 +1,7 @@
 import React, {  useState }  from "react";
 import Input from "../../input/input";
 
-export default function Td ({item, prefix, tdClassNames, rowSpan, step = 1}) {
+export default function Td ({item, prefix, tdClassNames, rowSpan, step }) {
     const [input, setInput] = useState(false);
 
     return (
@@ -11,7 +11,6 @@ export default function Td ({item, prefix, tdClassNames, rowSpan, step = 1}) {
         onMouseEnter={() => setInput(true)}
         onMouseLeave={() => setInput(false)}
         >
-            {/* {inputsCell} */}
             <Input
             classNames={''}
             key={item[0]+prefix+input} 

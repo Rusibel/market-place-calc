@@ -3,14 +3,12 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { useActions } from '../../hooks/useActions';
 import Cell from "../cell/cell";
 import Input from '../input/input'
-import Select from '../select/select'
 import Td from "./table-date/td";
 import './table-row.scss'
 
 export default function TableRow ({data, classNames, prefix, inputs, select = []}) {
 
     const state = useSelector(state => state, shallowEqual);
-    const [input, setInput] = useState(false);
 
     function calcOutputVal ({e, prefix=''}) {
         
@@ -51,46 +49,6 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                                     'table__row__yellow' : (prefix === 'header' && prefix === 'headerVal') ? 'table__header' : '')
 
         classNames = ' ' + tdClassNames
-        const rub = item[1] ? ' ₽' : '';
-
-    // const inputsCell = (item, prefix) => {
-    //     if (!input) {
-    //         return(<Input
-    //             classNames={'   '}
-    //             key={item[0]+prefix} 
-    //             value={item[1].toLocaleString()}
-    //             id={item[0]+'__'+prefix} 
-    //             prefix={prefix}
-    //             param={item[0]}
-    //             type='text'/>)
-    //     }
-    //     return (<Input
-    //         classNames={'   '}
-    //         key={item[0]+prefix} 
-    //         value={item[1]}
-    //         id={item[0]+'__'+prefix} 
-    //         prefix={prefix}
-    //         param={item[0]}
-    //         type='number'/>)
-    // } 
-
-            let inputsCell = !input ?
-                <Input
-                classNames={'   '}
-                key={item[0]+prefix} 
-                value={item[1].toLocaleString()}
-                id={item[0]+'__'+prefix} 
-                prefix={prefix}
-                param={item[0]}
-                type='text'/> : 
-                    <Input
-                    classNames={'   '}
-                    key={item[0]+prefix} 
-                    value={item[1]}
-                    id={item[0]+'__'+prefix} 
-                    prefix={prefix}
-                    param={item[0]}
-                    type='number'/>
 
         if (item[0] === 'marketplaceCommission' && prefix === 'header'){
             return (
@@ -113,17 +71,6 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 prefix={prefix}
                 tdClassNames={tdClassNames}
                 key={item[0]+prefix} />
-                // <td rowSpan={3} key={item[0]+prefix} className={tdClassNames} >
-                //     <Input
-                //     classNames={''}
-                //     key={item[0]+prefix} 
-                //     value={item[1]}
-                //     id={item[0]+'__'+prefix} 
-                //     prefix={prefix}
-                //     param={item[0]}
-                //     rub={rub}
-                //     />
-                // </td>
             )        
         }else
         if ((item[0] === 'limitSum' || item[0] === 'packRentPackerTotal' || item[0] === 'numberOfShipments')  && prefix === 'managerSettings'){
@@ -134,24 +81,6 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 prefix={prefix}
                 tdClassNames={tdClassNames}
                 key={item[0]+prefix} />
-                // <td rowSpan={2} 
-                // key={item[0]+prefix} 
-                // className={tdClassNames} 
-                // onMouseEnter={() => setInput(true)}
-                // onMouseLeave={() => setInput(false)}
-                // >
-                //     {/* {inputsCell} */}
-                //     <Input
-                //     classNames={''}
-                //     key={item[0]+prefix} 
-                //     value={item[1]}
-                //     id={item[0]+'__'+prefix} 
-                //     prefix={prefix}
-                //     param={item[0]}
-                //     rub={rub}
-                //     input={input}
-                //     />
-                // </td>
             )        
         }else
         if ((item[0] === 'packRentPacker1pc')  && prefix === 'managerSettings'){
@@ -185,7 +114,6 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         if (select.includes(item[0]))
             {
             return (
-
                 <Td 
                 item={item}
                 rowSpan={1}
@@ -193,20 +121,9 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 tdClassNames={tdClassNames}
                 key={item[0]+prefix}
                 step={0.5} />
-                // <td key={item[0]+prefix} className={tdClassNames}>
-                //     <Select
-                //     classNames={''}
-                //     key={item[0]+prefix} 
-                //     value={item[1]}
-                //     id={item[0]+'__'+prefix} 
-                //     prefix={prefix}
-                //     param={item[0]}/>
-                // </td>
             )
         } else
-        if (inputs.includes(item[0])){
-            
-
+        if (inputs.includes(item[0])){            
             return (
                 <Td 
                 item={item}
@@ -214,16 +131,6 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 prefix={prefix}
                 tdClassNames={tdClassNames} 
                 key={item[0]+prefix}/>
-                // <td 
-                // key={item[0]+prefix} 
-                // className={tdClassNames}  
-                // onMouseEnter={() => setInput(true)}
-                // onMouseLeave={() => setInput(false)}
-                // >
-
-                //     {inputsCell}
-
-                // </td>
             )
         } else{
             return (
