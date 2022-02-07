@@ -11,13 +11,13 @@ export default function Select ({id, classNames, prefix, param}) {
     const addVal = useCallback((e) => addValActionDispatch({e, param: param, prefix: prefix}), [addValActionDispatch]);
 
     const optionsOfSelect = () => {
-        const opt = [];
+        const opt = ["19", "27", "55", "0"];
 
-        for (let i = 0; i < 100; i++){
-            opt.push(i)
-            opt.push(i + 0.5);
+        // for (let i = 0; i < 100; i++){
+        //     opt.push(i)
+        //     opt.push(i + 0.5);
             
-        }
+        // }
 
         const options = opt.map((number) => 
             <option value={number} key={number + prefix + param}>{number}%</option>)

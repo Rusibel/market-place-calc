@@ -12,16 +12,17 @@ export default function ManagerSettings ({filterState}) {
     const headerFilteredState = filterState(state, "profitHeader", "profitValHeader",  "limitSumHeader", "minClearProfitHeader", "packRentPackerTotalHeader", "numberOfShipmentsHeader", 'packRentPacker1pcHeader') 
     const firstRowFilteredState = filterState(state, "minProfitHeader", "minProfit", "limitSum", "minClearProfitNull", "packRentPackerTotal", "numberOfShipments", "packRentPacker1pc")
     const secondRowFilteredState = filterState(state, "maxProfitHeader", "maxProfit", "minClearProfit")
-    const thirdFilteredState = filterState(state, 'packRentPacker1pcHeader', "returns", "reject", "dkYm", "pt", 'adv')
+    const thirdFilteredState = filterState(state, 'packRentPacker1pcHeader', "returns", "reject", "dkYmR", "ptR", 'adv', "magistral")
+    const foursFilteredState = filterState(state, 'packRentPacker1pcHeader', "returns", "reject", "dkYm", "pt", 'adv', "magistral")
 
     const inputs = ["minProfit", 'maxProfit', "limitSum", "minClearProfit", "packRentPackerTotal", "numberOfShipments"];
-    const select = ["returns", "reject", "dkYm", "pt", "adv"];
+    const select = ["returns", "reject", "dkYm", "pt", "adv", "magistral"];
 
     const header = <TableRow classNames="" data={headerFilteredState.managerSettings}  prefix='managerSettings' filterState={filterState} inputs={[]}/>
     const firstRow= <TableRow classNames="" data={firstRowFilteredState.managerSettings}  prefix='managerSettings' filterState={filterState} inputs={inputs} select={[]}/>
     const secondRow = <TableRow classNames="" data={secondRowFilteredState.managerSettings}  prefix='managerSettings' filterState={filterState} inputs={inputs} select={[]}/>
     const thirdRow = <TableRow classNames="" data={thirdFilteredState.header}  prefix='header' filterState={filterState} inputs={inputs} select={[]}/>
-    const foursRow = <TableRow classNames="" data={thirdFilteredState.headerVal}  prefix='headerVal' filterState={filterState} inputs={inputs} select={select}/>
+    const foursRow = <TableRow classNames="" data={foursFilteredState.headerVal}  prefix='headerVal' filterState={filterState} inputs={inputs} select={select}/>
 
 
     return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState }  from "react";
 import { useSelector, shallowEqual } from 'react-redux';
 import { useActions } from '../../hooks/useActions';
+import Select from "../select/select";
 import Cell from "../cell/cell";
 import Input from '../input/input'
 import Td from "./table-date/td";
@@ -113,15 +114,31 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
         }else 
         if (select.includes(item[0]))
             {
-            return (
-                <Td 
-                item={item}
-                rowSpan={1}
-                prefix={prefix}
-                tdClassNames={tdClassNames}
-                key={item[0]+prefix}
-                step={0.5} />
-            )
+                if (item[0] !== "magistral"){
+                    return (
+                        <Td 
+                        item={item}
+                        rowSpan={1}
+                        prefix={prefix}
+                        tdClassNames={tdClassNames}
+                        key={item[0]+prefix}
+                        step={0.5} />
+                    )
+                } 
+                else {
+                    return (
+                    <td rowSpan='1' key={item[0]+prefix} className={tdClassNames} >
+                        <Select
+                        classNames={''}
+                        key={item[0]+prefix} 
+                        value={item[1]}
+                        id={item[0]+'__'+prefix}
+                        prefix={prefix}
+                        param={item[0]}
+                        />
+                    </td>
+                    )
+                }            
         } else
         if (inputs.includes(item[0])){            
             return (
@@ -149,6 +166,14 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
     return (
         <tr className='table__row'>
             {row}
+            {/* <Select
+                        classNames={''}
+                        key={32} 
+                        value={23}
+                        id={2323}
+                        prefix={prefix}
+                        param={23322323}
+                        /> */}
         </tr>
     )
 }
