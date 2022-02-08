@@ -20,6 +20,52 @@ export default function calcParamResult(state, action, pref) {
         magistral, lastMile, dkYm, pt, adv, deliveryComission, processing, commissionTotal,
         tax, tax1per, costsWithoutPurchase, profit} = prefix;   
 
+    function calcOutputVal ({state, prefix=pref}) {
+
+        const marketplaceName = (prefix === 'ozoneCalc') ? 'Озон' : (prefix === 'wbCalc') ? 'WB' : ' Я.Маркет' ,
+              success = {
+                output: `Срочно выкладываем на ${marketplaceName}!`,
+                outputCell: true 
+              },       
+              unsuccess = {
+                output: `На ${marketplaceName} не продаем, ищем дальше!`,
+                outputCell: false 
+              }          
+      
+    
+        if(state[prefix].profit > 0){
+            if(state.masterdata.cell1pc <= state.managerSettings.limitSum){
+                if(state[prefix].ROI >= (+state.managerSettings.minProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
+                    
+                    // state[prefix].output = `Срочно выкладываем на ${marketplaceName}!`
+                    // state[prefix].outputCell = true 
+                } else { 
+
+                    // state[prefix].output = `На ${marketplaceName} не продаем, ищем дальше!`
+                    // state[prefix].outputCell = false 
+                }
+            } else {
+                if(state[prefix].CP >= state.managerSettings.minProfit){
+                    if(state[prefix].ROI >= (+state.managerSettings.maxProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
+                        state[prefix].output = `Срочно выкладываем на ${marketplaceName}!`
+                        state[prefix].outputCell = true 
+                    } else {                     
+                        state[prefix].output = `На ${marketplaceName} не продаем, ищем дальше!`
+                        state[prefix].outputCell = false 
+                }
+                } else {                     
+                    state[prefix].output = `На ${marketplaceName} не продаем, ищем дальше!`
+                    state[prefix].outputCell = false 
+                }
+            } 
+        }  else { 
+                state[prefix].output = `На ${marketplaceName} не продаем, ищем дальше!`
+                state[prefix].outputCell = false 
+                }
+        state[prefix].output = `Срочно выкладываем на ${marketplaceName}!`
+        state[prefix].outputCell = true   
+        }
+
     function calcResult ({state, pref, prefix, buy1pc, cell1pc}) {
         
             console.log(state)

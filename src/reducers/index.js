@@ -181,7 +181,7 @@ const initialState = {
         CP: 445,
         ROI: 1.32,
         buyMax: 1716,
-        cellMin: 2628,
+        cellMin: 2628 ,
         cellZero: 2483,
         PackRentPacker: 45,
         returns: 10,

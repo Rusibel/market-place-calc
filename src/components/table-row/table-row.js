@@ -11,7 +11,7 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
 
     const state = useSelector(state => state, shallowEqual);
 
-    function calcOutputVal ({e, prefix=''}) {
+    function calcOutputVal ({prefix=''}) {
         
         if(state[prefix].profit > 0){
             if(state.masterdata.cell1pc <= state.managerSettings.limitSum){
