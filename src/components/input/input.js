@@ -29,7 +29,6 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
         checked={state.masterdata.heightWidthLength}
         onChange={() => {
             addValMasterdata();
-            // addVal()
         }}
         />
     } else {
@@ -62,57 +61,6 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
             prefix={prefix}
             step={step}
             />
-        // input = 
-        // <input 
-        // type={type}
-        // // onBlur={(e) => {
-        // //     e.target.type = 'text'
-        // //     e.target.value = value.toLocaleString()
-        // //     }
-        // // }
-        // value={value}
-        // placeholder={value}
-        // id={id}
-        // className={classNames}
-        // onChange={(e) => {
-        //     // console.log(e.target)
-        //     // console.log(value)
-        //     // value =  typeof(value) === 'number' ? value : +(value.replace(/\s/g, ''))
-        //     // console.log(value)
-        //     // // e.target.type = 'number'
-        //     // e.target.value = +value
-        //     // console.log(e.target.value)
-        //     // console.log(e.target)
-        //     // e.target.value = +e.target.value.replace(/\s/g, '')
-        //     addVal(e)}}
-        // // onFocus={(e) => {
-        // //     console.log(e.target)
-        // //     // console.log(typeof(value))
-        // //     value = typeof(e.target.value) === 'number' ? e.target.value : +e.target.value.replace(/\s/g, '')
-            
-        // //     e.target.type = 'number'   
-        // //     e.target.value = value
-        // //     console.log(e.target)
-        // //     // console.log(typeof(value))
-        // //     // console.log(e.target.value)
-        // //     // console.log(value)
-
-        // // }}
-        // onInput={(e) => {
-        //     // value = typeof(e.target.value) === 'number' ? e.target.value : +e.target.value.replace(/\s/g, '')
-        //     // e.target.type = 'number'
-        //     // e.target.value = value
-        //     // // console.log(value)
-        //     // console.log(typeof(value))
-            
-        //     // e.target.value = typeof(value) === 'number' ? value : +value.replace(/\s/g, '')
-        //     // console.log(value)
-        //     // console.log(typeof(value))
-        //     if(e.target.value < 0) e.target.value=0
-        //     }
-        // }
-        // prefix={prefix}
-        // />
     }    
     return (
         <>
