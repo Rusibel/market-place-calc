@@ -83,25 +83,25 @@ export default function calcParamResult(state, action, pref) {
                         prefix.lastMile;
             deliveryComission = (pref === 'ozoneCalc') ? (acceptance + magistral + lastMile) :
                                 (pref === 'yMarketCalc') ? (fixCommission + delivery + federal) : 0
-            dkYm = +state.headerVal.dkYm * 0.01 * cell1pc;
-            pt = +state.headerVal.pt * 0.01 * cell1pc;
-            processing = cell1pc*0.01;
+            dkYm = +(+state.headerVal.dkYm * 0.01 * cell1pc).toFixed(3);
+            pt = +(+state.headerVal.pt * 0.01 * cell1pc).toFixed(3);
+            processing = +(cell1pc*0.01).toFixed(3);
             commissionTotal = (pref === 'yMarketCalc') ? cell1pc*marketplaceCommission*0.01 + deliveryComission + processing : 
                                cell1pc*marketplaceCommission*0.01 + deliveryComission;
-            adv = +state.headerVal.adv*cell1pc*0.01;
+            adv = +(+state.headerVal.adv*cell1pc*0.01).toFixed(3);
             returns = state.headerVal.returns;
-            reject = state.headerVal.reject;
+            reject = +(+state.headerVal.reject*0.01).toFixed(2);
             rejectPrice = (pref === 'ozoneCalc') ? (packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm + pt + adv + 20) :
                           (pref === 'wbCalc') ? (delivery*2 + packRentPacker + dkYm + pt + adv) : 
                           (pref === 'yMarketCalc') ? (delivery*2 + packRentPacker + dkYm + pt + adv + fixCommission) : 0;
             tax = (cell1pc - commissionTotal)*0.07;
             tax1per = (cell1pc - commissionTotal)*0.01;
-            costsWithoutPurchase = +Math.floor(packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax + tax1per).toFixed();
+            costsWithoutPurchase = +Math.floor(packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject + tax + tax1per).toFixed();
 
 
             
 
-            profit = Math.floor(cell1pc - buy1pc - costsWithoutPurchase);
+            profit = cell1pc - buy1pc - costsWithoutPurchase;
             cp = profit;
             roi = (cp + buy1pc) / buy1pc;
 
@@ -111,36 +111,38 @@ export default function calcParamResult(state, action, pref) {
                         (buy1pc * cheapGoodsRoi + costsWithoutPurchase);
             cellZero = buy1pc + costsWithoutPurchase;
 
-            if(cell1pc > limitSum) {
-                if(roi >= expensiveGoodsRoi){
-                    buyMax = (cell1pc - costsWithoutPurchase) / expensiveGoodsRoi
-                }
-                buyMax = cell1pc - costsWithoutPurchase - minClearProfit
-            } else {
-                buyMax = (cell1pc - costsWithoutPurchase) / cheapGoodsRoi
-            }
+            // if(cell1pc > limitSum) {
+            //     if(roi >= expensiveGoodsRoi){
+            //         buyMax = (cell1pc - costsWithoutPurchase) / expensiveGoodsRoi
+            //     }
+            //     buyMax = cell1pc - costsWithoutPurchase - minClearProfit
+            // } else {
+            //     buyMax = (cell1pc - costsWithoutPurchase) / cheapGoodsRoi
+            // }
             // buyMaxCalc = ((cell1pc > limitSum)) ? 
             //             // Math.min((Math.floor((+cell1pc.toFixed() - +costsWithoutPurchase.toFixed()) / +expensiveGoodsRoi.toFixed(5))), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
             //             cell1pc - costsWithoutPurchase - minClearProfit :
             //             ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
-            // buyMax = ((cell1pc > limitSum)) ? 
-            //             Math.min(((cell1pc - costsWithoutPurchase) * 100/ expensiveGoodsRoi) * 0.01 , (cell1pc - costsWithoutPurchase - minClearProfit)) : 
+            // buyMax = ((cell1pc > limitSum)) ?
+            //             // Math.min(cellZero / expensiveGoodsRoi , cellZero - minClearProfit) : cellZero / cheapGoodsRoi
+            //             Math.min((cell1pc - costsWithoutPurchase)/ expensiveGoodsRoi , (cell1pc - costsWithoutPurchase - minClearProfit)) : 
+            //             // Math.min(((packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + tax + tax1per)*expensiveGoodsRoi) / (expensiveGoodsRoi - reject*0.01), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
+            //             // ((packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + tax + tax1per)*expensiveGoodsRoi) / (expensiveGoodsRoi - reject*0.01) :
             //             // cell1pc - costsWithoutPurchase - minClearProfit :
             //             ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
 
-                        // console.log(buyMax);
-            // if(cell1pc > limitSum) {
-            //     if(roi >= expensiveGoodsRoi){
-            //         buyMax = cell1pc - costsWithoutPurchase - minClearProfit
-            //     } else {
-
-            //         buyMax = (cell1pc - costsWithoutPurchase) / expensiveGoodsRoi
-            //     }
-            // } else {
-            //     buyMax = (cell1pc - costsWithoutPurchase) / cheapGoodsRoi
-            // }
-                        console.log(((cell1pc - costsWithoutPurchase)/ expensiveGoodsRoi));
-                        console.log(cell1pc - costsWithoutPurchase - minClearProfit);
+            //             console.log(buyMax);
+            if(cell1pc > limitSum) {
+                if(expensiveGoodsRoi - 1 <= 1){
+                    buyMax = Math.min((cell1pc - costsWithoutPurchase) / (expensiveGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit))
+                } else {
+                    buyMax = Math.max((cell1pc - costsWithoutPurchase) / (expensiveGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit))
+                }
+          
+            } else {
+                buyMax = (+cell1pc - +costsWithoutPurchase) / +(expensiveGoodsRoi)
+            }
+     
             let newState =  {
                 ...state[pref],
                     CP: cp,
@@ -171,7 +173,7 @@ export default function calcParamResult(state, action, pref) {
             }
             for (let key in newState){
                 if (typeof(newState[key]) === 'number' && key !== 'marketplaceCommission'){            
-                    newState[key] = +newState[key].toFixed(0)
+                    newState[key] = +newState[key].toFixed()
                 }
             }
         
@@ -190,8 +192,9 @@ export default function calcParamResult(state, action, pref) {
         if(cellMin.toFixed() !== cell1pc.toFixed()){
             calcCellMin({state, pref, prefix, buy1pc, cell1pc: cellMin})            
         }
-        console.log(state);
-        
+
+        // const celBuyState = {cellMin: cellMin, buyMax: buyMax }
+        // console.log(celBuyState);
         return cellMin
     };
 
@@ -201,7 +204,8 @@ export default function calcParamResult(state, action, pref) {
         if(cellZero.toFixed() !== cell1pc.toFixed()){
             calcCellZero({state, pref, prefix, buy1pc, cell1pc: cellZero})            
         }
-        // console.log(state);
+        // const celBuyState = {cellZero: cellZero, buyMax: buyMax, buy1pc: buy1pc }
+        // console.log(celBuyState);
         
         return cellZero
     };
@@ -209,19 +213,29 @@ export default function calcParamResult(state, action, pref) {
     function calcBuyMax ({state, pref, prefix, buy1pc, cell1pc}) {
 
         calcResult({state, pref, prefix, buy1pc, cell1pc});
-        if(buyMaxCalc.toFixed() !== buy1pc.toFixed()){
+        console.log(buyMax);
+        console.log(buy1pc);
+        // console.log(+buyMax.toFixed() !== +buy1pc.toFixed());
+        // console.log((buyMax + 1).toFixed() !== +buy1pc.toFixed());
+        // console.log((buyMax - 1).toFixed() !== +buy1pc.toFixed());
+        console.log(+buyMax.toFixed() !== +buy1pc.toFixed() && +(buyMax + 1).toFixed() !== +buy1pc.toFixed() && +(buyMax - 1).toFixed() !== +buy1pc.toFixed());
 
-            calcBuyMax({state, pref, prefix, buy1pc: buyMaxCalc, cell1pc})            
+        
+        if(+buyMax.toFixed() !== +buy1pc.toFixed() && +(buyMax + 1).toFixed() !== +buy1pc.toFixed() && +(buyMax - 1).toFixed() !== +buy1pc.toFixed()){
+
+            calcBuyMax({state, pref, prefix, buy1pc: buyMax, cell1pc})            
         }
+        console.log(buyMax);
         return buyMax
     }
 
     // cellMin = calcCellMin({state, pref, prefix, buy1pc, cell1pc})
     const calcState = calcResult({state, pref, prefix, buy1pc, cell1pc});
+    const calcBuyMaxState = calcBuyMax({state, pref, prefix, buy1pc, cell1pc})
     // console.log(calcState);
-    // calcState.cellMin = calcCellMin({state, pref, prefix, buy1pc, cell1pc});
-    // calcState.cellZero = calcCellZero({state, pref, prefix, buy1pc, cell1pc});
-    calcState.buyMax = calcBuyMax({state, pref, prefix, buy1pc, cell1pc});
+    calcState.cellMin = +calcCellMin({state, pref, prefix, buy1pc, cell1pc}).toFixed();
+    calcState.cellZero = +calcCellZero({state, pref, prefix, buy1pc, cell1pc}).toFixed();
+    calcState.buyMax = +calcBuyMaxState.toFixed();
     console.log(calcState);
 
     return calcState;

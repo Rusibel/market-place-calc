@@ -6,10 +6,10 @@ export default function Cell ({value, classNames, id}) {
    
     if(id !== "ROI"){
         value = typeof(value) === 'number' ? value.toLocaleString() : value
-    } else {value = typeof(value) === 'number' ? value.toFixed(4) : value }
+    } else {value = typeof(value) === 'number' ? value.toFixed(2) : value }
 
 
     return (
-        <div className={classNames} id={id}>{value}</div>
+        <div className={classNames} id={id+"ads"}>{value}</div>
     )
 }

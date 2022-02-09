@@ -12,8 +12,8 @@ export default function ManagerSettings ({filterState}) {
     const headerFilteredState = filterState(state, "profitHeader", "profitValHeader",  "limitSumHeader", "minClearProfitHeader", "packRentPackerTotalHeader", "numberOfShipmentsHeader", 'packRentPacker1pcHeader') 
     const firstRowFilteredState = filterState(state, "minProfitHeader", "minProfit", "limitSum", "minClearProfitNull", "packRentPackerTotal", "numberOfShipments", "packRentPacker1pc")
     const secondRowFilteredState = filterState(state, "maxProfitHeader", "maxProfit", "minClearProfit")
-    const thirdFilteredState = filterState(state, 'packRentPacker1pcHeader', "returns", "reject", "dkYmR", "ptR", 'adv', "magistral")
-    const foursFilteredState = filterState(state, 'packRentPacker1pcHeader', "returns", "reject", "dkYm", "pt", 'adv', "magistral")
+    const thirdFilteredState = filterState(state, "returns", "reject", "dkYmR", "ptR", 'adv', "magistral")
+    const foursFilteredState = filterState(state, "returns", "reject", "dkYm", "pt", 'adv', "magistral")
 
     const inputs = ["minProfit", 'maxProfit', "limitSum", "minClearProfit", "packRentPackerTotal", "numberOfShipments"];
     const select = ["returns", "reject", "dkYm", "pt", "adv", "magistral"];
