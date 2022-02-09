@@ -154,9 +154,9 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 <td key={item[0]+prefix} className={tdClassNames} >
                     <Cell
                     classNames={''}
-                    key={item[0]+prefix} 
+                    key={item[0]} 
                     value={item[1]}
-                    id={item[0]+'__'+prefix}
+                    id={item[0]}
                     prefix={prefix} />
                 </td>
             )
