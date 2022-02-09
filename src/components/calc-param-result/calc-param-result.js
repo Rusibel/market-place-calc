@@ -6,12 +6,12 @@ export default function calcParamResult(state, action, pref) {
         state.masterdata[action.param] = +action.payload}
 
     let {limitSum, minProfit, maxProfit, minClearProfit, packRentPackerTotal, numberOfShipments} = state.managerSettings,            
-        cheapGoodsRoi =  +(minProfit/100) + 1,
+        cheapGoodsRoi =  +(minProfit/100 + 1),
         expensiveGoodsRoi = +(maxProfit/100 + 1),
         buy1pc = state.masterdata.buy1pc,
         cell1pc = state.masterdata.cell1pc;
 
-    let {marketplaceCommission, weight,
+    let {marketplaceCommission, weight, output, 
         CP: cp,
         ROI: roi,
         buyMax, cellMin, cellZero,
@@ -74,7 +74,7 @@ export default function calcParamResult(state, action, pref) {
                         prefix.delivery;
             federal = (pref === 'yMarketCalc') ? ((cell1pc*0.01) >= 100 ? 100 : (cell1pc*0.01) > 10 ? cell1pc*0.01 : 10) :
                       prefix.federal;
-            packRentPacker = +(+packRentPackerTotal / +numberOfShipments).toFixed(0);
+            packRentPacker = +(+packRentPackerTotal / +numberOfShipments);
             magistral = (pref === 'ozoneCalc') ? (state.headerVal.magistral*(weight/1000) < 5 ? 5 : state.headerVal.magistral*(weight/1000) > 500 ? 500 : state.headerVal.magistral*(weight/1000)) :
                         prefix.magistral;                    
             lastMile = (pref === 'ozoneCalc') ? ((cell1pc*0.044 <= 50) ? 50 : (cell1pc*0.044 < 200) ? cell1pc*0.044 : 200) :
@@ -95,21 +95,33 @@ export default function calcParamResult(state, action, pref) {
             tax = (cell1pc - commissionTotal)*0.07;
             tax1per = (cell1pc - commissionTotal)*0.01;
             costsWithoutPurchase = packRentPacker + commissionTotal + dkYm + pt + adv + returns*0.01*rejectPrice + buy1pc*reject*0.01 + tax + tax1per;
+
+
+            
+
+            profit = cell1pc - buy1pc - costsWithoutPurchase;
+            cp = profit;
+            roi = (cp + buy1pc) / buy1pc;
+
             cellZero = buy1pc + costsWithoutPurchase;
             cellMin = (cell1pc > limitSum) ? 
                         Math.max(((buy1pc * expensiveGoodsRoi) + costsWithoutPurchase), (minClearProfit + buy1pc + costsWithoutPurchase)) : 
                         ((buy1pc * cheapGoodsRoi) + costsWithoutPurchase);
-            buyMax = ((cell1pc > minClearProfit)) ? 
-                        Math.max(((cell1pc - costsWithoutPurchase) / cheapGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
-                        ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
-            console.log((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
-            console.log(cell1pc - costsWithoutPurchase - minClearProfit);
-            
 
-            profit = Math.ceil(cell1pc - buy1pc - costsWithoutPurchase);
-            cp = profit;
-            roi = (cp + buy1pc) / buy1pc;
+            if(cell1pc > limitSum) {
+                buyMax = cell1pc - costsWithoutPurchase - minClearProfit
+            } else {
+                buyMax = (cell1pc - costsWithoutPurchase) / cheapGoodsRoi
+            }
+            // buyMax = ((cell1pc > limitSum)) ? 
+            //             // Math.min(((cell1pc - costsWithoutPurchase) / expensiveGoodsRoi), (cell1pc - costsWithoutPurchase - minClearProfit)) : 
+            //             cell1pc - costsWithoutPurchase - minClearProfit :
+            //             ((cell1pc - costsWithoutPurchase) / cheapGoodsRoi);
 
+                        console.log(buyMax);
+
+                        // console.log((cell1pc - costsWithoutPurchase) / expensiveGoodsRoi);
+                        // console.log(cell1pc - costsWithoutPurchase - minClearProfit);
             let newState =  {
                 ...state[pref],
                     CP: cp,
@@ -146,7 +158,7 @@ export default function calcParamResult(state, action, pref) {
         
             newState = {
                 ...newState,
-                ROI: +roi.toFixed(2)
+                ROI: roi
             }
             return newState
     }
@@ -159,25 +171,24 @@ export default function calcParamResult(state, action, pref) {
         if(cellMin.toFixed() !== cell1pc.toFixed()){
             calcCellMin({state, pref, prefix, buy1pc, cell1pc: cellMin})            
         }
-        return Math.floor(cellMin).toFixed()
-    }
+        return cellMin
+    };
 
-    
-    function calcBuyMax({state, pref, prefix, buy1pc, cell1pc}) {
-        
+    function calcBuyMax ({state, pref, prefix, buy1pc, cell1pc}) {
+
         calcResult({state, pref, prefix, buy1pc, cell1pc});
-        if(buyMax.toFixed() !== buy1pc.toFixed()){
-            // cell1pc = cellMin;
-            calcBuyMax({state, pref, prefix, buy1pc: buyMax, cell1pc: cellMin})            
+        if(buyMax.toFixed(5) !== buy1pc.toFixed(5)){
+
+            calcBuyMax({state, pref, prefix, buy1pc: buyMax, cell1pc})            
         }
-        return buyMax.toFixed()
+        return buyMax
     }
 
     // cellMin = calcCellMin({state, pref, prefix, buy1pc, cell1pc})
     const calcState = calcResult({state, pref, prefix, buy1pc, cell1pc});
     calcState.cellMin = calcCellMin({state, pref, prefix, buy1pc, cell1pc});
-    // calcState.buyMax = calcBuyMax({state, pref, prefix, buy1pc, cell1pc});
-
+    calcState.buyMax = calcBuyMax({state, pref, prefix, buy1pc, cell1pc});
+    console.log(calcState);
 
     return calcState;
 }

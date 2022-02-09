@@ -98,7 +98,8 @@ const initialState = {
         costsWithoutPurchase: 0,
         profit: 0
     },
-    ozoneCalc: {        
+    ozoneCalc: {     
+        marketplaceName: "Озон",    
         outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
@@ -134,7 +135,7 @@ const initialState = {
         profit: 229
     },
     wbCalc: {
-        
+        marketplaceName: "WB", 
         outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
@@ -169,7 +170,8 @@ const initialState = {
         costsWithoutPurchase: 1083,
         profit: 724
     },
-    yMarketCalc: {        
+    yMarketCalc: { 
+        marketplaceName: "Я.Маркет",      
         outputCell: true,
         buy1pc: 1400,
         cell1pc: 2800,
