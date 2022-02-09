@@ -10,7 +10,7 @@ function addInputsValMasterdata ({e, param='', prefix=''}) {
     return { type: 'ADD_VAL_MASTERDATA', prefix: prefix, param: param};
 }
 
-export default function Input ({value, id, classNames, checkbox, prefix, param, type='number', input, step}) {
+export default function Input ({value, id, classNames, checkbox, prefix, param, type='number', input, step, max}) {
     const state = useSelector(state => state, shallowEqual)
 
     const [addValActionDispatch] = useActions([addInputsVal]);
@@ -51,6 +51,7 @@ export default function Input ({value, id, classNames, checkbox, prefix, param, 
             value={value}
             placeholder={value}
             id={id}
+            max={max}
             className={classNames}
             onChange={(e) => {
                 addVal(e)}}

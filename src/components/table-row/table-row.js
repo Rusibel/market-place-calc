@@ -13,22 +13,30 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
 
     function calcOutputVal ({prefix=''}) {
         
-        if(state[prefix].profit > 0){
-            if(state.masterdata.cell1pc <= state.managerSettings.limitSum){
-                if(state[prefix].ROI >= (+state.managerSettings.minProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
-                    return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix};
-                } else { 
-                return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix};}
-            } else {
-                if(state[prefix].CP >= state.managerSettings.minProfit){
-                    if(state[prefix].ROI >= (+state.managerSettings.maxProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
-                        return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix };
-                    } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix,} }
-                } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix}}
-            } 
-        }  else { state[prefix].output  =( 'На OZON не продаём, ищем дальше!')}
+
+      if(state[prefix].profit > 0){
+        if((state.masterdata.cell1pc >= +state[prefix].cellMin && state.masterdata.buy1pc <= +state[prefix].buyMax)){
+
+          return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix};
+
+        } 
+
+        }  else 
+        if(state.masterdata.cell1pc <= state.managerSettings.limitSum){
+            if(state[prefix].ROI >= (+state.managerSettings.minProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
+                return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix};
+            } else { 
+            return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix};}
+        } else
+        if(state[prefix].CP >= state.managerSettings.minProfit){
+            if(state[prefix].ROI >= (+state.managerSettings.maxProfit/100 + 1) && state[prefix].CP >= state.managerSettings.minClearProfit){
+                return { type: 'ADD_VAL_OUTPUT_SUCCESS', prefix: prefix };
+            } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix,} }
+        } else { return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix}}
+
         return { type: 'ADD_VAL_OUTPUT_UNSUCCESS', prefix: prefix}
-      }
+    } 
+
       
     const [calcOutputValDispatch] = useActions([calcOutputVal]);
     const outputVal = useCallback((e) => calcOutputValDispatch({e, prefix: prefix}), [calcOutputValDispatch]);
@@ -112,8 +120,9 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                 </td>
             )
         }else 
-        if (select.includes(item[0]))
-            {
+        if (select.includes(item[0])){
+                let max = (item[0] === 'marketplaceCommission' || item[0] === 'returns' || item[0] === 'reject') ? 30 : 50
+
                 if (item[0] !== "magistral"){
                     return (
                         <Td 
@@ -122,7 +131,8 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
                         prefix={prefix}
                         tdClassNames={tdClassNames}
                         key={item[0]+prefix}
-                        step={0.5} />
+                        step={0.5} 
+                        max={max}/>
                     )
                 } 
                 else {
@@ -166,14 +176,6 @@ export default function TableRow ({data, classNames, prefix, inputs, select = []
     return (
         <tr className='table__row'>
             {row}
-            {/* <Select
-                        classNames={''}
-                        key={32} 
-                        value={23}
-                        id={2323}
-                        prefix={prefix}
-                        param={23322323}
-                        /> */}
         </tr>
     )
 }

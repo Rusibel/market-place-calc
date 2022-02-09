@@ -1,7 +1,7 @@
 import React, {  useState }  from "react";
 import Input from "../../input/input";
 
-export default function Td ({item, prefix, tdClassNames, rowSpan, step }) {
+export default function Td ({item, prefix, tdClassNames, rowSpan, step, max}) {
     const [input, setInput] = useState(false);
 
     return (
@@ -20,6 +20,7 @@ export default function Td ({item, prefix, tdClassNames, rowSpan, step }) {
             param={item[0]}
             input={input}
             step={step}
+            max={max}
             />
         </td>
     )
