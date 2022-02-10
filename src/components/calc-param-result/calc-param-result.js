@@ -20,14 +20,16 @@ export default function calcParamResult(state, action, pref) {
         magistral, lastMile, dkYm, pt, adv, deliveryComission, processing, commissionTotal,
         tax, tax1per, costsWithoutPurchase, profit} = prefix;   
     
-        dkYm = +(+state.headerVal.dkYm * 0.01).toFixed(3);
-        pt = +(+state.headerVal.pt * 0.01).toFixed(3);
-        adv = +(+state.headerVal.adv*0.01).toFixed(3);
-        returns = state.headerVal.returns;
-        reject = +(+state.headerVal.reject*0.01).toFixed(2);
+
 
 
     function calcResult ({state, pref, prefix, buy1pc, cell1pc}) {
+
+            dkYm = +(+state.headerVal.dkYm * 0.01* cell1pc).toFixed(3);
+            pt = +(+state.headerVal.pt * 0.01* cell1pc).toFixed(3);
+            adv = +(+state.headerVal.adv*0.01* cell1pc).toFixed(3);
+            returns = state.headerVal.returns;
+            reject = +(+state.headerVal.reject*0.01).toFixed(2);
 
             weight = state.ozoneCalc.weight;
             delivery = (pref === 'yMarketCalc') ? (state.masterdata.heightWidthLength ? 250 : (weight/1000 >= 15) ? 350 : (cell1pc*0.04 < 55) ? 55 : (cell1pc*0.04 > 200) ? 200 : cell1pc*0.04) :
@@ -46,12 +48,12 @@ export default function calcParamResult(state, action, pref) {
             commissionTotal = (pref === 'yMarketCalc') ? cell1pc*marketplaceCommission*0.01 + deliveryComission + processing : 
                                cell1pc*marketplaceCommission*0.01 + deliveryComission;
 
-            rejectPrice = (pref === 'ozoneCalc') ? (packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm* cell1pc + pt* cell1pc + adv* cell1pc+ 20) :
-                          (pref === 'wbCalc') ? (delivery*2 + packRentPacker + dkYm* cell1pc + pt* cell1pc + adv* cell1pc) : 
-                          (pref === 'yMarketCalc') ? (delivery*2 + packRentPacker + dkYm* cell1pc + pt* cell1pc + adv* cell1pc + fixCommission) : 0;
+            rejectPrice = (pref === 'ozoneCalc') ? (packRentPacker + acceptance + ((magistral + lastMile) * 2) + dkYm + pt + adv+ 20) :
+                          (pref === 'wbCalc') ? (delivery*2 + packRentPacker + dkYm + pt + adv) : 
+                          (pref === 'yMarketCalc') ? (delivery*2 + packRentPacker + dkYm + pt + adv + fixCommission) : 0;
             tax = (cell1pc - commissionTotal)*0.07;
             tax1per = (cell1pc - commissionTotal)*0.01;
-            costsWithoutPurchase = +Math.floor(packRentPacker + commissionTotal + dkYm* cell1pc + pt * cell1pc + adv* cell1pc + returns*0.01*rejectPrice + buy1pc*reject + tax + tax1per).toFixed();
+            costsWithoutPurchase = +Math.floor(packRentPacker + commissionTotal + dkYm + pt  + adv + returns*0.01*rejectPrice + buy1pc*reject + tax + tax1per).toFixed();
             profit = cell1pc - buy1pc - costsWithoutPurchase;
             cp = profit;
             roi = (cp + buy1pc) / buy1pc;
@@ -150,5 +152,6 @@ export default function calcParamResult(state, action, pref) {
     calcState.cellZero = +calcCellZero({state, pref, prefix, buy1pc, cell1pc}).toFixed();
     calcState.buyMax = +calcBuyMaxState.toFixed();
 
+    // console.log(calcState)
     return calcState;
 }

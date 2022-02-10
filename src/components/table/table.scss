@@ -21,6 +21,7 @@ h1 {
             padding: 5px;
             text-align: center;
             width: 5%;
+            min-width: 50px;
             & .table__header{
                 font-weight: 700;
                 height: 100px;
@@ -63,12 +64,6 @@ h1 {
                         &:nth-of-type(3){
                             text-align: center;
                         }
-                        // &:nth-of-type(2){
-                        //     text-align: center;
-                        // }
-                        // &:nth-of-type(6){
-                        //     text-align: center;
-                        // }
                     }
                 }
             }
@@ -76,10 +71,7 @@ h1 {
         & td {
             border-bottom: 2px solid rgba(73, 73, 73, 0.233);
             padding: 5px;
-            // text-align: center;
-            // &:nth-of-type(4){
-            //     text-align: left;
-            // }
+
             &:nth-of-type(7){
                 width: 30%;
             }
@@ -95,13 +87,6 @@ h1 {
     & .table__header{
         font-weight: 700;
         height: 50px;
-        // & .cell {
-
-        //     writing-mode: tb-rl;
-        //     height: 100px;
-        //     text-align: center;
-        //     margin: auto;
-        // }
     }
 }
 
