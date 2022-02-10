@@ -139,6 +139,7 @@ export default function calcParamResult(state, action, pref) {
     function calcBuyMax ({state, pref, prefix, buy1pc, cell1pc}) {
 
         calcResult({state, pref, prefix, buy1pc, cell1pc});
+        console.log(+buyMax.toFixed() !== +buy1pc.toFixed())
        
         if(+buyMax.toFixed() !== +buy1pc.toFixed() && +(buyMax + 1).toFixed() !== +buy1pc.toFixed() && +(buyMax - 1).toFixed() !== +buy1pc.toFixed()){
             calcBuyMax({state, pref, prefix, buy1pc: buyMax, cell1pc})            
@@ -147,10 +148,13 @@ export default function calcParamResult(state, action, pref) {
     }
 
     const calcState = calcResult({state, pref, prefix, buy1pc, cell1pc});
+    const calccellMin = calcCellMin({state, pref, prefix, buy1pc, cell1pc})
+    const calcCellZeroState = calcCellZero({state, pref, prefix, buy1pc, cell1pc})
     const calcBuyMaxState = calcBuyMax({state, pref, prefix, buy1pc, cell1pc})
-    calcState.cellMin = +calcCellMin({state, pref, prefix, buy1pc, cell1pc}).toFixed();
-    calcState.cellZero = +calcCellZero({state, pref, prefix, buy1pc, cell1pc}).toFixed();
-    calcState.buyMax = +calcBuyMaxState.toFixed();
+
+    calcState.cellMin = Math.ceil(calccellMin);
+    calcState.cellZero = +calcCellZeroState.toFixed();
+    calcState.buyMax = Math.floor(calcBuyMaxState);
 
     // console.log(calcState)
     return calcState;
